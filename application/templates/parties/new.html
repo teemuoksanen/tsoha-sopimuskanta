@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+  
+{% block body %}
+<h2>Lisää osapuoli</h2>
+
+<form method="POST" action="{{ url_for('parties_create') }}">
+  <input type="text" name="name"/>
+  <input type="submit" value="Lisää osapuoli"/>
+</form>
+{% endblock %}

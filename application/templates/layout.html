@@ -1,15 +1,33 @@
 <!DOCTYPE html>
 <html>
+
   <head>
     <meta charset="utf-8">
     <title>Sopimuskanta</title>
   </head>
 
   <body>
+
+    <h1>Sopimuskanta</h1>
+
+    <ul>
+      <li>Sopimukset</li>
+      <ul>
+        <li><a href="{{ url_for('contracts_index') }}">Listaa sopimukset</a></li>
+        <li><a href="{{ url_for('contracts_form') }}">Lisää sopimus</a></li>
+      </ul>
+      <li>Osapuolet</li>
+      <ul>
+        <li><a href="{{ url_for('parties_index') }}">Listaa osapuolet</a></li>
+        <li><a href="{{ url_for('parties_form') }}">Lisää osapuoli</a></li>
+      </ul>
+    </ul>
+
     {% block body %}
       <p>
-        Content.
+        Sisältö.
       </p>
     {% endblock %}
   </body>
+
 </html>

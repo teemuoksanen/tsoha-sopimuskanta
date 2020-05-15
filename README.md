@@ -4,6 +4,12 @@ Sopimuskantaan voi tallentaa tietoja sopimuksista sekä niiden osapuolista. Sopi
 
 Kullekin käyttäjälle voidaan antaa joko luku- taikka luku- ja kirjoitusoikeudet. Lukuoikeudet omaava ei voi lisätä sopimuksia, mutta voi lisätä muistutuksia itselleen. Kirjoitusoikeuden omaavat voivat lisätä muistutuksia myös muille. Ylläpitäjäksi merkitty käyttäjä voi luoda myös uusia käyttäjiä.
 
+## Sovellus Herokussa
+
+Sovellus löytyy osoitteesta:
+
+(https://tsoha-sopimuskanta.herokuapp.com/)
+
 ## Alustava tietokantakaavio
 
 ![Tietokantakaavio](https://github.com/teemuoksanen/tsoha-sopimuskanta/blob/master/kuvat/tietokantakaavio.png)

@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <h2>Sopimukset</h2>
+
+  <table>
+    <tr>
+      <th>Sopimuksen nimi</th>
+      <th>Päivä</th>
+    </tr>
+    {% for contract in contracts %}
+    <tr>
+      <td>{{ contract.name }}</td>
+      <td>[puuttuu]</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

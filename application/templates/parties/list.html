@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <h2>Osapuolet</h2>
+
+  <table>
+    <tr>
+      <th>Nimi</th>
+      <th>Konkurssissa</th>
+      <th></th>
+    </tr>
+    {% for party in parties %}
+    <tr>
+      <td>{{ party.name }}</td>
+      <td>{{ party.bankrupt }}</td>
+      <td>
+        <form method="POST" action="{{ url_for('parties_set_bankrupt', party_id=party.id) }}">
+          <input type="submit" value="Set bankrupt"/>
+        </form>
+          </td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}
