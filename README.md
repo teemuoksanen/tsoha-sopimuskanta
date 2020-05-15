@@ -10,8 +10,12 @@ Sovellus löytyy osoitteesta:
 
 (https://tsoha-sopimuskanta.herokuapp.com/)
 
+## Dokumentaatio
+
+- [Käyttäjätarinat (User storyt)](https://github.com/teemuoksanen/tsoha-sopimuskanta/blob/master/documentation/UserStories.md)
+
 ## Alustava tietokantakaavio
 
-![Tietokantakaavio](https://github.com/teemuoksanen/tsoha-sopimuskanta/blob/master/kuvat/tietokantakaavio.png)
+![Tietokantakaavio](https://github.com/teemuoksanen/tsoha-sopimuskanta/blob/master/documentation/pics/tietokantakaavio.png)
 
-[Tietokantakaavio](https://github.com/teemuoksanen/tsoha-sopimuskanta/blob/master/kuvat/tietokantakaavio.png)
+[Tietokantakaavio](https://github.com/teemuoksanen/tsoha-sopimuskanta/blob/master/documentation/pics/tietokantakaavio.png)
