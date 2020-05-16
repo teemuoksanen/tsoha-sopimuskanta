@@ -6,9 +6,7 @@ Kullekin käyttäjälle voidaan antaa joko luku- taikka luku- ja kirjoitusoikeud
 
 ## Sovellus Herokussa
 
-Sovellus löytyy osoitteesta:
-
-(https://tsoha-sopimuskanta.herokuapp.com/)
+Sovellus löytyy osoitteesta (https://tsoha-sopimuskanta.herokuapp.com/).
 
 ## Dokumentaatio
 
