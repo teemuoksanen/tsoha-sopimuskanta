@@ -7,13 +7,10 @@ class Party(db.Model):
     onupdate=db.func.current_timestamp())
 
     name = db.Column(db.String(144), nullable=False)
-    date_entry = db.Column(db.DateTime)
-    date_expiry = db.Column(db.DateTime)
-    business_id = db.Column(db.String(11))
+    business_id = db.Column(db.String(9))
     address_street = db.Column(db.String(144))
-    address_postalcode = db.Column(db.String(10))
+    address_postalcode = db.Column(db.String(5))
     address_city = db.Column(db.String(50))
-    address_country = db.Column(db.String(50))
     bankrupt = db.Column(db.Boolean, nullable=False)
 
     def __init__(self, name):

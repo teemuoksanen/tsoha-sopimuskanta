@@ -6,12 +6,16 @@
   <table>
     <tr>
       <th>Nimi</th>
+      <th>Y-tunnus</th>
+      <th>Osoite</th>
       <th>Konkurssissa</th>
       <th></th>
     </tr>
     {% for party in parties %}
     <tr>
       <td>{{ party.name }}</td>
+      <td>{{ party.business_id }}</td>
+      <td>{{ party.address_street }}, {{ party.address_postalcode }} {{ party.address_city }}</td>
       <td>{{ party.bankrupt }}</td>
       <td>
         <form method="POST" action="{{ url_for('parties_set_bankrupt', party_id=party.id) }}">

@@ -1,6 +1,8 @@
 from application import app, db
+
 from flask import redirect, render_template, request, url_for
 from application.contracts.models import Contract
+from application.contracts.forms import ContractForm
 
 @app.route("/contracts", methods=["GET"])
 def contracts_index():
@@ -8,11 +10,16 @@ def contracts_index():
 
 @app.route("/contracts/new/")
 def contracts_form():
-    return render_template("contracts/new.html")
+    return render_template("contracts/new.html", form = ContractForm())
 
 @app.route("/contracts/", methods=["POST"])
 def contracts_create():
-    contract = Contract(request.form.get("name"))
+    form = ContractForm(request.form)
+
+    if not form.validate():
+        return render_template("contracts/new.html", form = form)
+
+    contract = Contract(form.name.data)
 
     db.session().add(contract)
     db.session().commit()

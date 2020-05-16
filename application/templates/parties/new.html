@@ -4,7 +4,98 @@
 <h2>Lisää osapuoli</h2>
 
 <form method="POST" action="{{ url_for('parties_create') }}">
-  <input type="text" name="name"/>
-  <input type="submit" value="Lisää osapuoli"/>
+
+  <table>
+    <tr>
+      <td>
+        {{ form.name.label }}
+      </td>
+      <td>
+        {{ form.name }}
+      </td>
+      <td>
+        <ul>
+          {% for error in form.name.errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        {{ form.businessid.label }}
+      </td>
+      <td>
+        {{ form.businessid }}
+      </td>
+      <td>
+        <ul>
+          {% for error in form.businessid.errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        {{ form.address_street.label }}
+      </td>
+      <td>
+        {{ form.address_street }}
+      </td>
+      <td>
+        <ul>
+          {% for error in form.address_street.errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        {{ form.address_postalcode.label }}
+      </td>
+      <td>
+        {{ form.address_postalcode }}
+      </td>
+      <td>
+        <ul>
+          {% for error in form.address_postalcode.errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        {{ form.address_city.label }}
+      </td>
+      <td>
+        {{ form.address_city }}
+      </td>
+      <td>
+        <ul>
+          {% for error in form.address_city.errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        {{ form.bankrupt.label }}
+      </td>
+      <td>
+        {{ form.bankrupt }}
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <input type="submit" value="Lisää osapuoli"/>
+      </td>
+      <td></td>
+    </tr>
+  </table>
 </form>
 {% endblock %}
