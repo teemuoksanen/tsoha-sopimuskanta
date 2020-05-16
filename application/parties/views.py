@@ -1,5 +1,6 @@
 from application import app, db
 from flask import redirect, render_template, request, url_for
+from flask_login import login_required
 
 from application.parties.models import Party
 from application.parties.forms import PartyForm
@@ -9,10 +10,12 @@ def parties_index():
     return render_template("parties/list.html", parties = Party.query.all())
 
 @app.route("/parties/new/")
+@login_required
 def parties_form():
     return render_template("parties/new.html", form = PartyForm())
 
 @app.route("/parties/bankrupt/<party_id>/", methods=["POST"])
+@login_required
 def parties_set_bankrupt(party_id):
 
     party = Party.query.get(party_id)
@@ -22,6 +25,7 @@ def parties_set_bankrupt(party_id):
     return redirect(url_for("parties_index"))
 
 @app.route("/parties/", methods=["POST"])
+@login_required
 def parties_create():
     form = PartyForm(request.form)
 
