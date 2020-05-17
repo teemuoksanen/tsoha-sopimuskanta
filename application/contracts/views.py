@@ -32,3 +32,14 @@ def contracts_create():
     db.session().commit()
   
     return redirect(url_for("contracts_index"))
+
+@app.route("/contracts/delete/<contract_id>/", methods=["POST"])
+@login_required
+def contracts_delete(contract_id):
+
+    contract = Contract.query.get(contract_id)
+
+    db.session().delete(contract)
+    db.session().commit()
+
+    return redirect(url_for("contracts_index"))
