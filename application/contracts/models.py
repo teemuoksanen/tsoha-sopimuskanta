@@ -7,11 +7,14 @@ class Contract(db.Model):
     onupdate=db.func.current_timestamp())
 
     name = db.Column(db.String(144), nullable=False)
-    date_signed = db.Column(db.DateTime)
-    date_entry = db.Column(db.DateTime)
-    date_expiry = db.Column(db.DateTime)
+    date_signed = db.Column(db.Date)
+    date_entry = db.Column(db.Date)
+    date_expiry = db.Column(db.Date)
     value = db.Column(db.Numeric)
     notes = db.Column(db.String(250))
+
+    account_id = db.Column(db.Integer, db.ForeignKey('account.id'),
+                           nullable=False)
 
     def __init__(self, name):
         self.name = name

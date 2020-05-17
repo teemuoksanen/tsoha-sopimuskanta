@@ -1,5 +1,5 @@
 from application import app, db
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 from flask import redirect, render_template, request, url_for
 from application.contracts.models import Contract
@@ -23,6 +23,10 @@ def contracts_create():
         return render_template("contracts/new.html", form = form)
 
     contract = Contract(form.name.data)
+    contract.date_signed = form.date_signed.data
+    contract.date_entry = form.date_entry.data
+    contract.date_expiry = form.date_expiry.data
+    contract.account_id = current_user.id
 
     db.session().add(contract)
     db.session().commit()

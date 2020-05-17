@@ -6,12 +6,16 @@
   <table>
     <tr>
       <th>Sopimuksen nimi</th>
-      <th>Päivä</th>
+      <th>Allekirjoitettu</th>
+      <th>Tulee voimaan</th>
+      <th>Umpeutuu</th>
     </tr>
     {% for contract in contracts %}
     <tr>
       <td>{{ contract.name }}</td>
-      <td>[puuttuu]</td>
+      <td>{{ contract.date_signed }}</td>
+      <td>{{ contract.date_entry }}</td>
+      <td>{{ contract.date_expiry }}</td>
     </tr>
     {% endfor %}
   </table>
