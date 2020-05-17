@@ -4,17 +4,23 @@ app = Flask(__name__)
 from flask_sqlalchemy import SQLAlchemy
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///contracts.db"
 app.config["SQLALCHEMY_ECHO"] = True
-
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
+
+from flask_bcrypt import Bcrypt
+bcrypt = Bcrypt(app)
 
 from application import views
 
+# Contracts
 from application.contracts import models
 from application.contracts import views
 
+# Parties
 from application.parties import models
 from application.parties import views
 
+# Users
 from application.auth import models
 from application.auth import views
 
@@ -33,7 +39,5 @@ login_manager.login_message = "Sinun on kirjauduttava sisään käyttääksesi t
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
-
-
 
 db.create_all()
