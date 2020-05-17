@@ -6,6 +6,7 @@ from application.auth.models import User
 from application.auth.forms import LoginForm, UserForm
 
 @app.route("/users", methods=["GET"])
+@login_required
 def users_index():
     return render_template("auth/list.html", users = User.query.all())
 
