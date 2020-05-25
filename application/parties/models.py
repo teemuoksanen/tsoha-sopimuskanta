@@ -1,10 +1,7 @@
 from application import db
+from application.models import Base
 
-class Party(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
-    date_modified = db.Column(db.DateTime, default=db.func.current_timestamp(),
-    onupdate=db.func.current_timestamp())
+class Party(Base):
 
     name = db.Column(db.String(144), nullable=False)
     business_id = db.Column(db.String(9))
