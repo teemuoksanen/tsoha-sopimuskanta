@@ -1,9 +1,17 @@
 {% extends "layout.html" %}
   
 {% block body %}
-<h2>Lisää sopimus</h2>
+{% if action == "edit" %}
+  <h2>Muokkaa sopimusta</h2>
+{% else %}
+  <h2>Lisää sopimus</h2>
+{% endif %}
 
+{% if action == "edit" %}
+<form method="POST" action="/contracts/update/{{ contract_id }}/">
+{% else %}
 <form method="POST" action="{{ url_for('contracts_create') }}">
+{% endif %}
   <table>
     <tr>
       <td>
@@ -67,7 +75,11 @@
     </tr>
     <tr>
       <td colspan="3">
-        <input type="submit" value="Lisää sopimus"/>
+        {% if action == "edit" %}
+          <input type="submit" value="Tallenna"/> <input type="reset" value="Palauta muutokset"/>
+        {% else %}
+          <input type="submit" value="Lisää"/>
+        {% endif %}
       </td>
       <td></td>
     </tr>

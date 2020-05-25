@@ -10,6 +10,7 @@
       <th>Tulee voimaan</th>
       <th>Umpeutuu</th>
       <th></th>
+      <th></th>
     </tr>
     {% for contract in contracts %}
     <tr>
@@ -17,6 +18,11 @@
       <td>{{ contract.date_signed }}</td>
       <td>{{ contract.date_entry }}</td>
       <td>{{ contract.date_expiry }}</td>
+      <td>
+        <form method="POST" action="{{ url_for('contracts_edit_form', contract_id=contract.id) }}">
+          <input type="submit" value="Muokkaa"/>
+        </form>
+      </td>
       <td>
         <form method="POST" action="{{ url_for('contracts_delete', contract_id=contract.id) }}">
           <input type="submit" value="Poista"/>

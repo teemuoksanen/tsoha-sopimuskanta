@@ -8,6 +8,10 @@ Kullekin käyttäjälle voidaan antaa joko luku- taikka luku- ja kirjoitusoikeud
 
 Sovellus löytyy osoitteesta (https://tsoha-sopimuskanta.herokuapp.com/).
 
+Tunnukset testikäyttöä varten:
+Tunnus: __'testi'__
+Salasana: __'salasana'__
+
 ## Dokumentaatio
 
 - [Käyttäjätarinat (User storyt)](https://github.com/teemuoksanen/tsoha-sopimuskanta/blob/master/documentation/UserStories.md)

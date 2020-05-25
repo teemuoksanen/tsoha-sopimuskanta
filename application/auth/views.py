@@ -5,7 +5,7 @@ from application import app, db, bcrypt
 from application.auth.models import User
 from application.auth.forms import LoginForm, UserForm
 
-@app.route("/users", methods=["GET"])
+@app.route("/users/", methods=["GET"])
 @login_required
 def users_index():
     return render_template("auth/list.html", users = User.query.all())
@@ -35,7 +35,6 @@ def auth_login():
         return render_template("auth/loginform.html", form = LoginForm())
 
     form = LoginForm(request.form)
-    # mahdolliset validoinnit
 
     user = User.query.filter_by(username=form.username.data).first()
     if not user:

@@ -5,7 +5,7 @@ from flask_login import login_required
 from application.parties.models import Party
 from application.parties.forms import PartyForm
 
-@app.route("/parties", methods=["GET"])
+@app.route("/parties/", methods=["GET"])
 def parties_index():
     return render_template("parties/list.html", parties = Party.query.all())
 
