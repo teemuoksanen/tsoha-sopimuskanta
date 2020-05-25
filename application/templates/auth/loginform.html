@@ -2,7 +2,9 @@
 
 {% block body %}
 <h2>Kirjaudu sisään</h2>
-{{ error }}
+{% if error %}
+<div class="alert alert-danger" role="alert">{{ error }}</div>
+{% endif %}
 <form method="POST" action="{{ url_for('auth_login') }}">
   <table>
     <tr>
