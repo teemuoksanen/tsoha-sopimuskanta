@@ -2,8 +2,9 @@ from application import app, db
 from flask_login import login_required, current_user
 
 from flask import redirect, render_template, request, url_for
+from datetime import date
 from application.contracts.models import Contract
-from application.contracts.forms import ContractForm
+from application.contracts.forms import ContractForm, ContractPartyForm
 from application.parties.models import Party
 
 @app.route("/contracts/", methods=["GET"])
@@ -46,14 +47,14 @@ def contracts_delete(contract_id):
 
     return redirect(url_for("contracts_index"))
 
-@app.route("/contracts/edit/<int:contract_id>/", methods=["GET", "POST"])
+@app.route("/contracts/edit/<int:contract_id>/", methods=["GET"])
 @login_required
 def contracts_edit_form(contract_id):
     contract = Contract.query.get(contract_id)
     form = ContractForm(obj=contract)
     return render_template("contracts/form.html", form = form, action = "edit", contract_id = contract_id)
 
-@app.route("/contracts/update/<int:contract_id>/", methods=["POST"])
+@app.route("/contracts/edit/<int:contract_id>/", methods=["POST"])
 @login_required
 def contracts_edit(contract_id):
     form = ContractForm(request.form)
@@ -70,11 +71,50 @@ def contracts_edit(contract_id):
     db.session().add(editedContract)
     db.session().commit()
   
-    return redirect(url_for("contracts_index"))
+    return redirect(url_for('contracts_view', contract_id=contract_id))
 
-@app.route("/contracts/<int:contract_id>/", methods=["GET", "POST"])
+@app.route("/contracts/<int:contract_id>/", methods=["GET"])
 @login_required
 def contracts_view(contract_id):
     contract = Contract.query.get(contract_id)
-    allParties = [(party.id, party.name) for party in Party.query.order_by('name').all()]
-    return render_template("contracts/view.html", contract = contract)
+    form = ContractPartyForm()
+    form.parties.choices = [(party.id, party.name) for party in Party.query.order_by('name').all()]
+    form.parties.choices.insert(0, (0, "-- Valitse osapuoli --"))
+    return render_template("contracts/view.html", contract = contract, form = form, today = date.today(), addPartyError = 0)
+
+@app.route("/contracts/<int:contract_id>/", methods=["POST"])
+@login_required
+def contracts_addparty(contract_id):
+    contract = Contract.query.get(contract_id)
+    form = ContractPartyForm(request.form)
+    form.parties.choices = [(party.id, party.name) for party in Party.query.order_by('name').all()]
+    form.parties.choices.insert(0, (0, "-- Valitse osapuoli --"))
+
+    if not form.validate():
+        return render_template("contracts/view.html", contract = contract, form = form, addPartyError = 1)
+    
+    contract.parties.append(Party.query.get(form.parties.data))
+    
+    db.session().add(contract)
+    db.session().commit()
+            
+    return redirect(url_for('contracts_view', contract_id=contract_id))
+
+@app.route("/contracts/<int:contract_id>/removeparty/<int:party_id>/", methods=["GET"])
+@login_required
+def contracts_removeparty(contract_id, party_id):
+    contract = Contract.query.get(contract_id)
+    form = ContractPartyForm()
+    party = Party.query.get(party_id)
+
+    if not party:
+        return render_template("contracts/view.html", contract = contract, form = form, addPartyError = 1)
+    
+    contract.parties.remove(party)
+    
+    db.session().add(contract)
+    db.session().commit()
+            
+    return redirect(url_for('contracts_view', contract_id=contract_id))
+
+    return render_template("contracts/view.html", contract = contract, form = form, today = date.today(), addPartyError = 0)

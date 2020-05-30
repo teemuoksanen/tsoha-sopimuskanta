@@ -1,9 +1,129 @@
 {% extends "layout.html" %}
   
 {% block body %}
-<h2>Sopimus: {{ contract.name }}</h2>
+<h2>Sopimus: <em>{{ contract.name }}</em></h2>
 
+{% if addPartyError == 1 %}
 <div class="alert alert-danger" role="alert">
-  Tämä sivu ei ole vielä käytössä!
+  Osapuolen lisääminen sopimukselle ei onnistunut! Ole hyvä ja yritä uudelleen.
 </div>
+{% endif %}
+
+<div class="row">
+
+  <div class="col-sm-5">
+    <div class="card">
+      <h5 class="card-header">Osapuolet</h5>
+      {% if contract.parties %}
+      <ul class="list-group list-group-flush">
+        {% for party in contract.parties %}
+          {% if party.bankrupt %}
+          <li class="list-group-item list-group-item-danger d-flex flex-row">
+            <div class="p-2"><strong><a href="#">{{ party.name }}</a></strong> (konkurssissa)</div>
+            <div class="p-2 ml-auto"><a href="{{ url_for('contracts_removeparty', contract_id=contract.id, party_id=party.id) }}">poista</a></div>
+          </li>
+          {% else %}
+          <li class="list-group-item list-group-item d-flex">
+            <div class="p-2"><strong><a href="#">{{ party.name }}</a></strong></div>
+            <div class="p-2 ml-auto"><a href="{{ url_for('contracts_removeparty', contract_id=contract.id, party_id=party.id) }}">poista</a></div>
+          </li>
+          {% endif %}
+        {% endfor %}
+        </ul>
+      {% else %}
+      <div class="alert alert-warning" role="alert">
+        Sopimuksella ei ole vielä osapuolia
+      </div>
+      {% endif %}
+      <div class="card-body text-center">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addParty">Lisää osapuoli sopimukselle</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="card">
+      <h5 class="card-header">Päivämäärät</h5>
+      <ul class="list-group list-group-flush">
+        {% if contract.date_entry > today %}
+        <li class="list-group-item bg-warning">Sopimus ei ole vielä voimassa</li>
+        {% elif contract.date_expiry and contract.date_expiry < today %}
+        <li class="list-group-item bg-warning">Sopimus on umpeutunut</li>
+        {% else %}
+        <li class="list-group-item bg-success">Sopimus on voimassa</li>
+        {% endif %}
+        <li class="list-group-item">Allekirjoitettu: {{ contract.date_signed.strftime("%-d.%-m.%Y") }}</li>
+        <li class="list-group-item">Tulee voimaan: {{ contract.date_entry.strftime("%-d.%-m.%Y") }}</li>
+        {% if contract.date_expiry %}
+        <li class="list-group-item">Umpeutuu: {{ contract.date_expiry.strftime("%-d.%-m.%Y") }} </li>
+        {% else %}
+        <li class="list-group-item">Ei umpeutumispäivää</li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="card">
+      <h5 class="card-header">Toiminnot</h5>
+      <div class="card-body text-center">
+        <p><a href="{{ url_for('contracts_edit_form', contract_id=contract.id) }}" class="btn btn-primary">Muokkaa sopimusta</a></p>
+        <p><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteContract">Poista sopimus</button></p>
+      </div>
+    </div>    
+  </div>
+
+</div>
+
+<!-- Add Party to Contract -->
+<div class="modal fade" id="addParty" tabindex="-1" role="dialog" aria-labelledby="addPartyTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addPartyLongTitle">Lisää osapuoli sopimukselle</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="POST" action="{{ url_for('contracts_addparty', contract_id=contract.id) }}">
+        <div class="modal-body">
+          {{ form.parties(class_="form-control") }}
+          {% if form.parties.description %}
+          <small class="form-text text-muted">{{ form.parties.description }}</small>
+          {% endif %}
+        </div>
+        <div class="modal-footer">
+          <a href="{{ url_for('parties_form') }}" class="btn btn-secondary">Luo uusi osapuoli</a>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Peruuta</button>
+          <button type="submit" class="btn btn-primary">Lisää</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Remove Contract -->
+<div class="modal fade" id="deleteContract" tabindex="-1" role="dialog" aria-labelledby="deleteContractTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteContractLongTitle">Poistetaanko sopimus?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Jos poistat sopimuksen <strong>"{{ contract.name }}"</strong>, sitä ei voida enää palauttaa. Haluatko varmasti poistaa sopimuksen?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Peruuta</button>
+        <form method="POST" action="{{ url_for('contracts_delete', contract_id=contract.id) }}">
+          <button type="submit" class="btn btn-danger">Poista</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 {% endblock %}

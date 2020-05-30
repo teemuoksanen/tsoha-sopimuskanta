@@ -15,9 +15,9 @@
 {% endif %}
 
 {% if action == "edit" %}
-<form method="POST" action="/contracts/update/{{ contract_id }}/" class="needs-validation">
+<form method="POST" action="{{ url_for('contracts_edit_form', contract_id=contract_id) }}" class="needs-validation">
 {% else %}
-<form method="POST" action="{{ url_for('contracts_create') }}"  class="needs-validation">
+<form method="POST" action="{{ url_for('contracts_create') }}" class="needs-validation">
 {% endif %}
   <div class="form-group">
     {{ form.name.label }} *
@@ -87,10 +87,10 @@
   </div>
   {% if action == "edit" %}
   <div class="alert alert-info" role="alert">
-    Sopimuksen osapuolia voit muokata <a href="/contracts/{{ contract_id }}/">sopimuksen tietosivulta</a>.
+    Sopimuksen osapuolia voit muokata <a href="/contracts/{{ contract_id }}/" class="alert-link">sopimuksen tietosivulta</a>.
   </div>
-  <button type="submit" class="btn btn-primary mr-1">Tallenna</button>
-  <button type="reset" class="btn btn-primary">Palauta muutokset</button>
+  <button type="submit" class="btn btn-primary">Tallenna</button>
+  <button type="reset" class="btn btn-secondary">Palauta muutokset</button>
   {% else %}
   <div class="alert alert-info" role="alert">
     Voit lisätä sopimukselle osapuolia sopimuksen tietosivulta sen jälkeen, kun olet ensin lisännyt sopimuksen.

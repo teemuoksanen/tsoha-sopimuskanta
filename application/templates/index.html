@@ -4,21 +4,21 @@
   <div class="jumbotron">
     <div class="container">
       <h1 class="display-3">Tervetuloa Sopimuskantaan!</h1>
-      <p>Sopimuskantaan voi tallentaa tietoja sopimuksista sekä niiden osapuolista. Voit lisätä myös sopimuksiin liittyviä muistutuksia.</p>
+      Sopimuskantaan voi tallentaa tietoja sopimuksista sekä niiden osapuolista. Voit lisätä myös sopimuksiin liittyviä muistutuksia.
     </div>
   </div>
 
   {% if current_user.is_authenticated %}
   <div class="alert alert-danger" role="alert">
-    <p><strong>Toimenpiteitä vaativat muistutuksesi:</strong></p>
+    <h4 class="alert-heading">Toimenpiteitä vaativat muistutuksesi</h4>
     <p>[TÄHÄN TULEE KÄYTTÄJÄN AKTIIVISET MUISTUTUKSET]</p>
   </div>
   <div class="alert alert-success" role="alert">
-    Sinulla ei ole toimenpiteitä tarvitsevia muistutuksia. Tarkista <a href="#">kaikki muistutuksesi</a>.
+    Sinulla ei ole toimenpiteitä tarvitsevia muistutuksia. Tarkista <a href="#" class="alert-link">kaikki muistutuksesi</a>.
   </div>
   {% else %}
   <div class="alert alert-info" role="alert">
-    Jotta voisit käyttää sopimuskannan kaikkia ominaisuuksia, sinun on ensin <a href="{{ url_for('auth_login') }}">kirjauduttava sisään</a>.
+    Jotta voisit käyttää sopimuskannan kaikkia ominaisuuksia, sinun on ensin <a href="{{ url_for('auth_login') }}" class="alert-link">kirjauduttava sisään</a>.
   </div>
   {% endif %}
 

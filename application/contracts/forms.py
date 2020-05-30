@@ -10,3 +10,9 @@ class ContractForm(FlaskForm):
   
     class Meta:
         csrf = False
+
+class ContractPartyForm(FlaskForm):
+    parties = SelectField("Osapuoli", [validators.required(message="Valitse lisättävä osapuoli")], description="Valitse osapuoli valikosta. Jos osapuolta ei ole valikossa, luo se ensin painamalla 'Luo uusi osapuoli'.", coerce=int)
+  
+    class Meta:
+        csrf = False

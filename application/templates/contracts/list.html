@@ -3,30 +3,18 @@
 {% block body %}
   <h2>Sopimukset</h2>
 
-  <table>
-    <tr>
-      <th>Sopimuksen nimi</th>
-      <th>Allekirjoitettu</th>
-      <th>Tulee voimaan</th>
-      <th>Umpeutuu</th>
-      <th></th>
-      <th></th>
-    </tr>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Sopimuksen nimi</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
     {% for contract in contracts %}
     <tr>
       <td>{{ contract.name }}</td>
-      <td>{{ contract.date_signed }}</td>
-      <td>{{ contract.date_entry }}</td>
-      <td>{{ contract.date_expiry }}</td>
       <td>
-        <form method="POST" action="{{ url_for('contracts_edit_form', contract_id=contract.id) }}">
-          <input type="submit" value="Muokkaa"/>
-        </form>
-      </td>
-      <td>
-        <form method="POST" action="{{ url_for('contracts_delete', contract_id=contract.id) }}">
-          <input type="submit" value="Poista"/>
-        </form>
+        <a href="{{ url_for('contracts_view', contract_id=contract.id) }}" class="btn btn-primary">Näytä sopimuksen tiedot</a>
       </td>
     </tr>
     {% endfor %}
