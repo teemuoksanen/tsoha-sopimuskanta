@@ -32,7 +32,9 @@ def users_create():
 @app.route("/auth/login", methods = ["GET", "POST"])
 def auth_login():
     if request.method == "GET":
-        return render_template("auth/loginform.html", form = LoginForm())
+        form = LoginForm()
+        form.nextpage.data = request.args.get('next')
+        return render_template("auth/loginform.html", form = form)
 
     form = LoginForm(request.form)
 
@@ -46,6 +48,9 @@ def auth_login():
                                error = "Salasana oli virheellinen!")
 
     login_user(user)
+
+    if request.form.get("nextpage"):
+        return redirect(request.form.get("nextpage"))
     return redirect(url_for("index"))
 
 @app.route("/auth/logout")

@@ -6,6 +6,7 @@
 <div class="alert alert-danger" role="alert">{{ error }}</div>
 {% endif %}
 <form method="POST" action="{{ url_for('auth_login') }}">
+  {{ form.nextpage }}
   <table>
     <tr>
       <td>

@@ -1,0 +1,101 @@
+{% extends "layout.html" %}
+  
+{% block body %}
+{% if action == "edit" %}
+  <h2>Muokkaa sopimusta</h2>
+{% else %}
+  <h2>Lisää sopimus</h2>
+{% endif %}
+
+{% if form.errors %}
+<div class="alert alert-danger" role="alert">
+  <p><strong>Lomakkeessa oli virheitä!</strong></p>
+  <p>Tarkista punaisella merkittyjen kenttien tiedot ja yritä uudelleen.</p>
+</div>
+{% endif %}
+
+{% if action == "edit" %}
+<form method="POST" action="/contracts/update/{{ contract_id }}/" class="needs-validation">
+{% else %}
+<form method="POST" action="{{ url_for('contracts_create') }}"  class="needs-validation">
+{% endif %}
+  <div class="form-group">
+    {{ form.name.label }} *
+    {% if form.name.errors %}
+    {{ form.name(class_="form-control is-invalid") }}
+    <div class="invalid-feedback">
+      {% for error in form.name.errors %}
+      {{ error }}
+      {% endfor %}
+    </div>
+    {% else %}
+    {{ form.name(class_="form-control") }}
+      {% if form.name.description %}
+      <small class="form-text text-muted">{{ form.name.description }}</small>
+      {% endif %}
+    {% endif %}
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      {{ form.date_signed.label }} *
+      {% if form.date_signed.errors %}
+      {{ form.date_signed(class_="form-control is-invalid") }}
+      <div class="invalid-feedback">
+        {% for error in form.date_signed.errors %}
+        {{ error }}
+        {% endfor %}
+      </div>
+      {% else %}
+      {{ form.date_signed(class_="form-control") }}
+        {% if form.date_signed.description %}
+        <small class="form-text text-muted">{{ form.date_signed.description }}</small>
+        {% endif %}
+      {% endif %}
+    </div>
+    <div class="form-group col-md-4">
+      {{ form.date_entry.label }} *
+      {% if form.date_entry.errors %}
+      {{ form.date_entry(class_="form-control is-invalid") }}
+      <div class="invalid-feedback">
+        {% for error in form.date_entry.errors %}
+        {{ error }}
+        {% endfor %}
+      </div>
+      {% else %}
+      {{ form.date_entry(class_="form-control") }}
+        {% if form.date_entry.description %}
+        <small class="form-text text-muted">{{ form.date_entry.description }}</small>
+        {% endif %}
+      {% endif %}
+    </div>
+    <div class="form-group col-md-4">
+      {{ form.date_expiry.label }} *
+      {% if form.date_expiry.errors %}
+      {{ form.date_expiry(class_="form-control is-invalid") }}
+      <div class="invalid-feedback">
+        {% for error in form.date_expiry.errors %}
+        {{ error }}
+        {% endfor %}
+      </div>
+      {% else %}
+      {{ form.date_expiry(class_="form-control") }}
+        {% if form.date_expiry.description %}
+        <small class="form-text text-muted">{{ form.date_expiry.description }}</small>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+  {% if action == "edit" %}
+  <div class="alert alert-info" role="alert">
+    Sopimuksen osapuolia voit muokata <a href="/contracts/{{ contract_id }}/">sopimuksen tietosivulta</a>.
+  </div>
+  <button type="submit" class="btn btn-primary mr-1">Tallenna</button>
+  <button type="reset" class="btn btn-primary">Palauta muutokset</button>
+  {% else %}
+  <div class="alert alert-info" role="alert">
+    Voit lisätä sopimukselle osapuolia sopimuksen tietosivulta sen jälkeen, kun olet ensin lisännyt sopimuksen.
+  </div>
+  <button type="submit" class="btn btn-primary mr-1">Lisää</button>
+  {% endif %}
+</form>
+{% endblock %}

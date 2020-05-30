@@ -51,6 +51,21 @@
       </td>
     </tr>
     <tr>
+      <td>
+        {{ form.confirmPassword.label }}
+      </td>
+      <td>
+        {{ form.confirmPassword }}
+      </td>
+      <td>
+        <ul>
+          {% for error in form.confirmPassword.errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td colspan="2">
         <input type="submit" value="Lisää käyttäjä"/>
       </td>

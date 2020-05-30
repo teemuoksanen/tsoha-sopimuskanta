@@ -4,6 +4,7 @@ from flask_login import login_required, current_user
 from flask import redirect, render_template, request, url_for
 from application.contracts.models import Contract
 from application.contracts.forms import ContractForm
+from application.parties.models import Party
 
 @app.route("/contracts/", methods=["GET"])
 def contracts_index():
@@ -12,7 +13,8 @@ def contracts_index():
 @app.route("/contracts/new/")
 @login_required
 def contracts_form():
-    return render_template("contracts/new.html", form = ContractForm())
+    form = ContractForm()
+    return render_template("contracts/form.html", form = form)
 
 @app.route("/contracts/", methods=["POST"])
 @login_required
@@ -20,7 +22,7 @@ def contracts_create():
     form = ContractForm(request.form)
 
     if not form.validate():
-        return render_template("contracts/new.html", form = form, action = "new")
+        return render_template("contracts/form.html", form = form, action = "new")
 
     contract = Contract(form.name.data)
     contract.date_signed = form.date_signed.data
@@ -49,7 +51,7 @@ def contracts_delete(contract_id):
 def contracts_edit_form(contract_id):
     contract = Contract.query.get(contract_id)
     form = ContractForm(obj=contract)
-    return render_template("contracts/new.html", form = form, action = "edit", contract_id = contract_id)
+    return render_template("contracts/form.html", form = form, action = "edit", contract_id = contract_id)
 
 @app.route("/contracts/update/<int:contract_id>/", methods=["POST"])
 @login_required
@@ -57,7 +59,7 @@ def contracts_edit(contract_id):
     form = ContractForm(request.form)
 
     if not form.validate():
-        return render_template("contracts/new.html", form = form, action = "edit")
+        return render_template("contracts/form.html", form = form, action = "edit")
 
     editedContract = Contract.query.get(contract_id)
     editedContract.name = form.name.data
@@ -69,3 +71,10 @@ def contracts_edit(contract_id):
     db.session().commit()
   
     return redirect(url_for("contracts_index"))
+
+@app.route("/contracts/<int:contract_id>/", methods=["GET", "POST"])
+@login_required
+def contracts_view(contract_id):
+    contract = Contract.query.get(contract_id)
+    allParties = [(party.id, party.name) for party in Party.query.order_by('name').all()]
+    return render_template("contracts/view.html", contract = contract)
