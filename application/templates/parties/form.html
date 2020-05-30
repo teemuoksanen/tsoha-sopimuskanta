@@ -1,101 +1,117 @@
 {% extends "layout.html" %}
   
 {% block body %}
-<h2>Lisää osapuoli</h2>
+{% if action == "edit" %}
+  <h2>Muokkaa osapuolta</h2>
+{% else %}
+  <h2>Lisää osapuoli</h2>
+{% endif %}
 
-<form method="POST" action="{{ url_for('parties_create') }}">
+{% if form.errors %}
+<div class="alert alert-danger" role="alert">
+  <p><strong>Lomakkeessa oli virheitä!</strong></p>
+  <p>Tarkista punaisella merkittyjen kenttien tiedot ja yritä uudelleen.</p>
+</div>
+{% endif %}
 
-  <table>
-    <tr>
-      <td>
-        {{ form.name.label }}
-      </td>
-      <td>
-        {{ form.name }}
-      </td>
-      <td>
-        <ul>
-          {% for error in form.name.errors %}
-            <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        {{ form.businessid.label }}
-      </td>
-      <td>
-        {{ form.businessid }}
-      </td>
-      <td>
-        <ul>
-          {% for error in form.businessid.errors %}
-            <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        {{ form.address_street.label }}
-      </td>
-      <td>
-        {{ form.address_street }}
-      </td>
-      <td>
-        <ul>
-          {% for error in form.address_street.errors %}
-            <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        {{ form.address_postalcode.label }}
-      </td>
-      <td>
-        {{ form.address_postalcode }}
-      </td>
-      <td>
-        <ul>
-          {% for error in form.address_postalcode.errors %}
-            <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        {{ form.address_city.label }}
-      </td>
-      <td>
-        {{ form.address_city }}
-      </td>
-      <td>
-        <ul>
-          {% for error in form.address_city.errors %}
-            <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        {{ form.bankrupt.label }}
-      </td>
-      <td>
-        {{ form.bankrupt }}
-      </td>
-      <td></td>
-    </tr>
-    <tr>
-      <td colspan="2">
-        <input type="submit" value="Lisää osapuoli"/>
-      </td>
-      <td></td>
-    </tr>
-  </table>
+{% if action == "edit" %}
+<form method="POST" action="{{ url_for('parties_edit_form', party_id=party_id) }}" class="needs-validation">
+{% else %}
+<form method="POST" action="{{ url_for('parties_create') }}" class="needs-validation">
+{% endif %}
+
+  <div class="form-group">
+    {{ form.name.label }} *
+    {% if form.name.errors %}
+    {{ form.name(class_="form-control is-invalid") }}
+    <div class="invalid-feedback">
+      {% for error in form.name.errors %}
+      {{ error }}
+      {% endfor %}
+    </div>
+    {% else %}
+    {{ form.name(class_="form-control") }}
+      {% if form.name.description %}
+      <small class="form-text text-muted">{{ form.name.description }}</small>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="form-group">
+    {{ form.business_id.label }} *
+    {% if form.business_id.errors %}
+    {{ form.business_id(class_="form-control is-invalid") }}
+    <div class="invalid-feedback">
+      {% for error in form.business_id.errors %}
+      {{ error }}
+      {% endfor %}
+    </div>
+    {% else %}
+    {{ form.business_id(class_="form-control") }}
+      {% if form.business_id.description %}
+      <small class="form-text text-muted">{{ form.business_id.description }}</small>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="form-group">
+    {{ form.address_street.label }} *
+    {% if form.address_street.errors %}
+    {{ form.address_street(class_="form-control is-invalid") }}
+    <div class="invalid-feedback">
+      {% for error in form.address_street.errors %}
+      {{ error }}
+      {% endfor %}
+    </div>
+    {% else %}
+    {{ form.address_street(class_="form-control") }}
+      {% if form.address_street.description %}
+      <small class="form-text text-muted">{{ form.address_street.description }}</small>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      {{ form.address_postalcode.label }} *
+      {% if form.address_postalcode.errors %}
+      {{ form.address_postalcode(class_="form-control is-invalid") }}
+      <div class="invalid-feedback">
+        {% for error in form.address_postalcode.errors %}
+        {{ error }}
+        {% endfor %}
+      </div>
+      {% else %}
+      {{ form.address_postalcode(class_="form-control") }}
+        {% if form.address_postalcode.description %}
+        <small class="form-text text-muted">{{ form.address_postalcode.description }}</small>
+        {% endif %}
+      {% endif %}
+    </div>
+    <div class="form-group col-md-8">
+      {{ form.address_city.label }} *
+      {% if form.address_city.errors %}
+      {{ form.address_city(class_="form-control is-invalid") }}
+      <div class="invalid-feedback">
+        {% for error in form.address_city.errors %}
+        {{ error }}
+        {% endfor %}
+      </div>
+      {% else %}
+      {{ form.address_city(class_="form-control") }}
+        {% if form.address_city.description %}
+        <small class="form-text text-muted">{{ form.address_city.description }}</small>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+
+{% if action == "edit" %}
+  <button type="submit" class="btn btn-primary">Tallenna</button>
+  <button type="reset" class="btn btn-secondary">Palauta muutokset</button>
+  {% else %}
+  <button type="submit" class="btn btn-primary mr-1">Lisää</button>
+  {% endif %}
+
 </form>
 {% endblock %}

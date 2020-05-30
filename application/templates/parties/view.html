@@ -52,11 +52,11 @@
         </div>
       </div>
 
-    <div class="col">
+    <div class="col-sm-3">
       <div class="card">
         <h5 class="card-header">Toiminnot</h5>
         <div class="card-body text-center">
-          <p><a href="#" class="btn btn-primary">Muokkaa osapuolta</a></p>
+          <p><a href="{{ url_for('parties_edit_form', party_id=party.id) }}" class="btn btn-primary">Muokkaa osapuolta</a></p>
           <p>
             {% if party.bankrupt %}
             <form method="POST" action="{{ url_for('parties_unset_bankrupt', party_id=party.id) }}">
@@ -68,11 +68,34 @@
             </form>
             {% endif %}
           </p>
-          <p><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteContract">Poista osapuoli</button></p>
+          <p><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteParty">Poista osapuoli</button></p>
         </div>
       </div>    
     </div>
 
+</div>
+
+<!-- Remove Party -->
+<div class="modal fade" id="deleteParty" tabindex="-1" role="dialog" aria-labelledby="deletePartyTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deletePartyLongTitle">Poistetaanko osapuoli?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Jos poistat osapuolen <strong>"{{ party.name }}"</strong>, sitä ei voida enää palauttaa. Haluatko varmasti poistaa osapuolen?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Peruuta</button>
+        <form method="POST" action="{{ url_for('parties_delete', party_id=party.id) }}">
+          <button type="submit" class="btn btn-danger">Poista</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
