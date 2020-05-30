@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+  
+{% block body %}
+<h2>Osapuoli: <em>{{ party.name }}</em></h2>
+
+<div class="row">
+
+    <div class="col">
+        <div class="card">
+            <h5 class="card-header">Tiedot</h5>
+            <div class="card-body">
+                <table class="table">
+                    <tr>
+                        <th scope="row">Nimi</th>
+                        <td>{{ party.name }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Y-tunnus</th>
+                        <td>{{ party.business_id }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Osoite</th>
+                        <td>{{ party.address_street }}<br />
+                        {{ party.address_postalcode }} {{ party.address_city }}</td>
+                    </tr>
+                    {% if party.bankrupt %}
+                    <tr>
+                        <td colspan="2" class="table-danger text-center">Konkurssissa</td>
+                    </tr>
+                    {% endif %}
+                </table>
+            </div>
+        </div>
+    </div>  
+    
+    <div class="col-sm-5">
+        <div class="card">
+          <h5 class="card-header">Sopimukset</h5>
+          {% if party.contracts %}
+          <ul class="list-group list-group-flush">
+            {% for contract in party.contracts %}
+              <li class="list-group-item list-group-item d-flex">
+                <div class="p-2"><strong><a href="{{ url_for('contracts_view', contract_id=contract.id) }}">{{ contract.name }}</a></strong></div>
+              </li>
+            {% endfor %}
+          </ul>
+          {% else %}
+          <div class="alert alert-warning" role="alert">
+            Osapuolella ei ole vielä sopimuksia
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+    <div class="col">
+      <div class="card">
+        <h5 class="card-header">Toiminnot</h5>
+        <div class="card-body text-center">
+          <p><a href="#" class="btn btn-primary">Muokkaa osapuolta</a></p>
+          <p>
+            {% if party.bankrupt %}
+            <form method="POST" action="{{ url_for('parties_unset_bankrupt', party_id=party.id) }}">
+              <button type="submit" class="btn btn-warning">Poista konkurssitieto</button>
+            </form>
+            {% else %}
+            <form method="POST" action="{{ url_for('parties_set_bankrupt', party_id=party.id) }}">
+              <button type="submit" class="btn btn-warning">Aseta konkurssiin</button>
+            </form>
+            {% endif %}
+          </p>
+          <p><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteContract">Poista osapuoli</button></p>
+        </div>
+      </div>    
+    </div>
+
+</div>
+
+{% endblock %}

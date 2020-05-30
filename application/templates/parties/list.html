@@ -3,24 +3,20 @@
 {% block body %}
   <h2>Osapuolet</h2>
 
-  <table>
-    <tr>
-      <th>Nimi</th>
-      <th>Y-tunnus</th>
-      <th>Osoite</th>
-      <th>Konkurssissa</th>
-      <th></th>
-    </tr>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Nimi</th>
+        <th scope="col">Y-tunnus</th>
+        <th></th>
+      </tr>
+  </thead>
     {% for party in parties %}
     <tr>
-      <td>{{ party.name }}</td>
-      <td>{{ party.business_id }}</td>
-      <td>{{ party.address_street }}, {{ party.address_postalcode }} {{ party.address_city }}</td>
-      <td>{{ party.bankrupt }}</td>
-      <td>
-        <form method="POST" action="{{ url_for('parties_set_bankrupt', party_id=party.id) }}">
-          <input type="submit" value="Aseta konkurssiin"/>
-        </form>
+      <td class="align-middle">{{ party.name }}</td>
+      <td class="align-middle">{{ party.business_id }}</td>
+      <td class="align-middle">
+        <a href="{{ url_for('parties_view', party_id=party.id) }}" class="btn btn-primary">Näytä osapuolen tiedot</a>
       </td>
     </tr>
     {% endfor %}

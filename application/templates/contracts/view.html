@@ -19,12 +19,12 @@
         {% for party in contract.parties %}
           {% if party.bankrupt %}
           <li class="list-group-item list-group-item-danger d-flex flex-row">
-            <div class="p-2"><strong><a href="#">{{ party.name }}</a></strong> (konkurssissa)</div>
+            <div class="p-2"><strong><a href="{{ url_for('parties_view', party_id=party.id) }}">{{ party.name }}</a></strong> (konkurssissa)</div>
             <div class="p-2 ml-auto"><a href="{{ url_for('contracts_removeparty', contract_id=contract.id, party_id=party.id) }}">poista</a></div>
           </li>
           {% else %}
           <li class="list-group-item list-group-item d-flex">
-            <div class="p-2"><strong><a href="#">{{ party.name }}</a></strong></div>
+            <div class="p-2"><strong><a href="{{ url_for('parties_view', party_id=party.id) }}">{{ party.name }}</a></strong></div>
             <div class="p-2 ml-auto"><a href="{{ url_for('contracts_removeparty', contract_id=contract.id, party_id=party.id) }}">poista</a></div>
           </li>
           {% endif %}
@@ -124,6 +124,5 @@
     </div>
   </div>
 </div>
-
 
 {% endblock %}
