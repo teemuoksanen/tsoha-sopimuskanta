@@ -3,23 +3,23 @@
 Käyttäjätarinoiden (_user story_) perässä oleva numero viittaa dokumentin lopussa oleviin SQL-kyselyihin.
 
 ## Käyttäjänä voin...
-- ...listata kaikki sopimukset sekä osapuolet. (1)
-- ...lisätä uusia sopimuksia (jolloin minut merkitään sopimuksen omistajaksi), osapuolia sekä sopimuksiin liittyviä muistutuksia. (2)
-- ...muokata omistamieni sopimusten tietoja tai poistaa kyseiset sopimukset. (3)
-- ...muokata tai poistaa omia muistutuksiani. (4)
-- ...muokata kaikkien osapuolten tietoja. (5)
-- ...muokata omia tietojani ja vaihtaa salasanaani.
-- ...lisätä osapuolia niihin sopimuksiin, joiden omistaja olen. (4)
+- ...listata kaikki sopimukset sekä osapuolet. _(1d)_
+- ...lisätä uusia sopimuksia (jolloin minut merkitään sopimuksen omistajaksi), osapuolia sekä sopimuksiin liittyviä muistutuksia. _(1a)_
+- ...muokata omistamieni sopimusten tietoja tai poistaa kyseiset sopimukset. _(1b, 1c)_
+- ...muokata tai poistaa omia muistutuksiani. _(1b, 1c)_
+- ...muokata kaikkien osapuolten tietoja. _(1b)_
+- ...muokata omia tietojani ja vaihtaa salasanaani. _(1b)_
+- ...lisätä osapuolia niihin sopimuksiin, joiden omistaja olen. _(2b)_
 
 ## Ylläpitäjänä voin lisäksi...
-- ...luoda uusia käyttäjiä.
-- ...poistaa minkä tahansa sopimuksen, osapuolen (jos osapuoli ei ole aktiivisena jollain sopimuksella), muistutuksen tai käyttäjän.
-- ...muokata mitä tahansa sopimusta, muistutusta tai käyttäjää.
-- ...lisätä muistutuksia kaikille käyttäjille.
+- ...luoda uusia käyttäjiä. _(1a)_
+- ...poistaa minkä tahansa sopimuksen, osapuolen (jos osapuoli ei ole aktiivisena jollain sopimuksella), muistutuksen tai käyttäjän. _(1c)_
+- ...muokata mitä tahansa sopimusta, muistutusta tai käyttäjää. _(1b)_
+- ...lisätä muistutuksia kaikille käyttäjille. _(1a)_
 
 ## Yleisiä käyttötapauksia
-- Jos sopimukselle lisätään päättymispäivä, sopimuksen omistajalle lisätään muistutus.
-- Jos osapuoli asetetaan konkurssiin, kaikille osapuolten sopimusten omistajille lisätään muistutus.
+- Jos sopimukselle lisätään päättymispäivä, sopimuksen omistajalle lisätään muistutus. _(1a)_
+- Jos osapuoli asetetaan konkurssiin, kaikille osapuolten sopimusten omistajille lisätään muistutus. _(1a)_
 
 # SQL-kyselyt
 
@@ -50,7 +50,7 @@ DELETE FROM Contract
     WHERE id = ?;
 ```
 
-### 1c. Kaikkien kohteiden listaaminen
+### 1d. Kaikkien kohteiden listaaminen
 
 ```
 SELECT * FROM Contract;
@@ -70,6 +70,16 @@ SELECT Party.id, Party.name FROM Party
     GROUP BY Party.id;
 ```
 
+### 2b. Osapuolen lisääminen sopimukselle
+
+Osapuoli lisätään sopimukselle liitostaulun avulla. Liitostalussa _contract_id_ viittaa sopimuksen id-numeroon ja _party_id_ osapuolen id-numeroon.
+
+```
+INSERT INTO ContractParty
+    (contract_id, party_id)
+    VALUES (?, ?);
+```
+
 ## 3. Osapuolet
 
 _osio kesken_
@@ -80,7 +90,7 @@ _osio kesken_
 
 ## 5. Käyttäjät
 
-### 4a. Sopimusten määrän liittäminen käyttäjälistaukseen
+### 5a. Sopimusten määrän liittäminen käyttäjälistaukseen
 
 Tätä kyselyä käytetään käyttäjälistaukessa, jossa näytetään kunkin käyttäjän tietojen lisäksi kunkin käyttäjän omistamien sopimusten määrä.
 
