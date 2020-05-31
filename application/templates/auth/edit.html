@@ -73,6 +73,14 @@
 
 <h3>Muuta salasanaa</h3>
 
+{% if user.id == 1 %}
+
+<div class="alert alert-warning" role="alert">
+  Testikäyttäjän salasanaa ei voi vaihtaa.
+</div>
+
+{% else %}
+
 <form method="POST" action="{{ url_for('users_edit_pw', user_id=user.id) }}" class="needs-validation">
 
   <div class="form-row">
@@ -113,4 +121,6 @@
   <button type="submit" class="btn btn-primary mr-1">Muuta salasana</button>
 
 </form>
+{% endif %}
+
 {% endblock %}

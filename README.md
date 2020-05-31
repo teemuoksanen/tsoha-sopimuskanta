@@ -12,6 +12,8 @@ Tunnukset testikäyttöä varten - voit myös luoda uuden käyttäjän:
 - Tunnus: __'testi'__
 - Salasana: __'salasana'__
 
+HUOM! Tällä hetkellä kaikki käyttäjät toimivat ylläpitäjän oikeuksilla ja voivat mm. muuttaa toisen käyttäjän tietoja. Tämä muutetaan myöhemmissä versioissa.
+
 ## Dokumentaatio
 
 - [Käyttäjätarinat (User storyt)](https://github.com/teemuoksanen/tsoha-sopimuskanta/blob/master/documentation/UserStories.md)
