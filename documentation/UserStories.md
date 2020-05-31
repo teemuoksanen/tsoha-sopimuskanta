@@ -4,15 +4,18 @@ Käyttäjätarinoiden (_user story_) perässä oleva numero viittaa dokumentin l
 
 ## Käyttäjänä voin...
 - ...listata kaikki sopimukset sekä osapuolet. _(1d)_
+- ...katsoa yksittäisen sopimuksen tietoja niin, että myös sopimukseen liitetyt osapuolet listataan. _(2c)_
+- ...katsoa yksittäisen osapuolten tietoja niin, että myös osapuoleen liitetyt sopimukset listataan. _(3a)_
 - ...lisätä uusia sopimuksia (jolloin minut merkitään sopimuksen omistajaksi), osapuolia sekä sopimuksiin liittyviä muistutuksia. _(1a)_
 - ...muokata omistamieni sopimusten tietoja tai poistaa kyseiset sopimukset. _(1b, 1c)_
 - ...muokata tai poistaa omia muistutuksiani. _(1b, 1c)_
 - ...muokata kaikkien osapuolten tietoja. _(1b)_
 - ...muokata omia tietojani ja vaihtaa salasanaani. _(1b)_
-- ...lisätä osapuolia niihin sopimuksiin, joiden omistaja olen. _(2b)_
+- ...lisätä osapuolia niihin sopimuksiin, joiden omistaja olen. _(2a, 2b)_
 
 ## Ylläpitäjänä voin lisäksi...
 - ...luoda uusia käyttäjiä. _(1a)_
+- ...listata kaikki käyttäjät niin, että näen samalla, montako sopimusta kullakin käyttäjällä on. _(5a)_
 - ...poistaa minkä tahansa sopimuksen, osapuolen (jos osapuoli ei ole aktiivisena jollain sopimuksella), muistutuksen tai käyttäjän. _(1c)_
 - ...muokata mitä tahansa sopimusta, muistutusta tai käyttäjää. _(1b)_
 - ...lisätä muistutuksia kaikille käyttäjille. _(1a)_
@@ -80,9 +83,27 @@ INSERT INTO ContractParty
     VALUES (?, ?);
 ```
 
+### 2c. Sopimukseen liittyvien osapuolten listaaminen
+
+Osapuoli liitetään sopimuksen tietoihin liitostaulun avulla. Liitostalussa _contract_id_ viittaa sopimuksen id-numeroon ja _party_id_ osapuolen id-numeroon.
+
+```
+SELECT Party.id, Party.name FROM Party
+    JOIN ContractParty ON Party.id = ContractParty.party_id
+    WHERE ContractParty.contract_id IS ?;
+```
+
 ## 3. Osapuolet
 
-_osio kesken_
+### 3a. Osapuoleen liittyvien sopimusten listaaminen
+
+Osapuoli liitetään sopimuksen tietoihin liitostaulun avulla. Liitostalussa _contract_id_ viittaa sopimuksen id-numeroon ja _party_id_ osapuolen id-numeroon.
+
+```
+SELECT Contract.id, Contract.name FROM Contract
+    JOIN ContractParty ON Contract.id = ContractParty.contract_id
+    WHERE ContractParty.party_id IS ?;
+```
 
 ## 4. Muistutukset
 
