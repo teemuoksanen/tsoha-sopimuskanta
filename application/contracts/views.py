@@ -91,7 +91,7 @@ def contracts_addparty(contract_id):
     form.parties.choices.insert(0, (0, "-- Valitse osapuoli --"))
 
     if not form.validate():
-        return render_template("contracts/view.html", contract = contract, form = form, addPartyError = 1)
+        return render_template("contracts/view.html", contract = contract, form = form, today = date.today(), addPartyError = 1)
     
     contract.parties.append(Party.query.get(form.parties.data))
     
@@ -108,7 +108,7 @@ def contracts_removeparty(contract_id, party_id):
     party = Party.query.get(party_id)
 
     if not party:
-        return render_template("contracts/view.html", contract = contract, form = form, addPartyError = 1)
+        return render_template("contracts/view.html", contract = contract, form = form, today = date.today(), addPartyError = 1)
     
     contract.parties.remove(party)
     
