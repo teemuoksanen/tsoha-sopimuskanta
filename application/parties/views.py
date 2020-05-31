@@ -31,7 +31,7 @@ def parties_create():
 
 @app.route("/parties/new/")
 @login_required
-def parties_form():
+def parties_new():
     form = PartyForm()
     return render_template("parties/form.html", form = form)
 

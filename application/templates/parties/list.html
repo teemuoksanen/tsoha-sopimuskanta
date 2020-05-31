@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <h2>Osapuolet</h2>
+  <h2>Osapuolet <a href="{{ url_for('parties_new') }}" class="btn btn-secondary ml-3" role="button">Uusi &raquo;</a></h2>
 
   <table class="table table-striped">
     <thead>
@@ -11,7 +11,7 @@
         <th></th>
       </tr>
   </thead>
-    {% for party in parties %}
+    {% for party in parties|sort(attribute='name') %}
     <tr>
       <td class="align-middle">{{ party.name }}</td>
       <td class="align-middle">{{ party.business_id }}</td>

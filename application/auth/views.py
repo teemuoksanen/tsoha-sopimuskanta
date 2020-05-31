@@ -3,16 +3,13 @@ from flask_login import login_user, logout_user, login_required
 
 from application import app, db, bcrypt
 from application.auth.models import User
-from application.auth.forms import LoginForm, UserForm
+from application.auth.forms import LoginForm, UserForm, UserEditForm, PasswordEditForm
 
 @app.route("/users/", methods=["GET"])
 @login_required
 def users_index():
-    return render_template("auth/list.html", users = User.query.all())
-
-@app.route("/users/new/")
-def users_form():
-    return render_template("auth/new.html", form = UserForm())
+    users = User.users_with_contracts_count()
+    return render_template("auth/list.html", users = users)
 
 @app.route("/users/", methods=["POST"])
 def users_create():
@@ -28,6 +25,54 @@ def users_create():
     db.session().commit()
   
     return redirect(url_for("users_index"))
+
+@app.route("/users/new/")
+def users_new():
+    return render_template("auth/new.html", form = UserForm())
+
+@app.route("/users/edit/<int:user_id>/", methods=["GET"])
+@login_required
+def users_edit_form(user_id):
+    user = User.query.get(user_id)
+    form = UserEditForm(obj=user)
+    form_pw = PasswordEditForm(obj=user)
+    return render_template("auth/edit.html", form = form, form_pw = form_pw, user = user, updated = "none")
+
+@app.route("/users/edit/<int:user_id>/", methods=["POST"])
+@login_required
+def users_edit(user_id):
+    user = User.query.get(user_id)
+    form = UserEditForm(request.form)
+    form_pw = PasswordEditForm(obj=user)
+
+    if not form.validate():
+        return render_template("auth/edit.html", form = form, form_pw = form_pw, user = user, updated = "none")
+
+    user.username = form.username.data
+    user.name = form.name.data
+
+    db.session().add(user)
+    db.session().commit()
+
+    return render_template("auth/edit.html", form = form, form_pw = form_pw, user = user, updated = "user")
+
+@app.route("/users/edit/<int:user_id>/password/", methods=["POST"])
+@login_required
+def users_edit_pw(user_id):
+    user = User.query.get(user_id)
+    form = UserEditForm(obj=user)
+    form_pw = PasswordEditForm(request.form)
+
+    if not form_pw.validate():
+        return render_template("auth/edit.html", form = form, form_pw = form_pw, user = user, updated = "none")
+
+    pw_hash = bcrypt.generate_password_hash(form_pw.password.data).decode('utf-8')
+    user.password = pw_hash
+
+    db.session().add(user)
+    db.session().commit()
+
+    return render_template("auth/edit.html", form = form, form_pw = form_pw, user = user, updated = "pw")
 
 @app.route("/auth/login", methods = ["GET", "POST"])
 def auth_login():

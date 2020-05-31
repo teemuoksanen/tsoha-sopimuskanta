@@ -11,12 +11,6 @@ from application.parties.models import Party
 def contracts_index():
     return render_template("contracts/list.html", contracts = Contract.query.all())
 
-@app.route("/contracts/new/")
-@login_required
-def contracts_form():
-    form = ContractForm()
-    return render_template("contracts/form.html", form = form)
-
 @app.route("/contracts/", methods=["POST"])
 @login_required
 def contracts_create():
@@ -35,6 +29,21 @@ def contracts_create():
     db.session().commit()
   
     return redirect(url_for("contracts_index"))
+
+@app.route("/contracts/new/")
+@login_required
+def contracts_new():
+    form = ContractForm()
+    return render_template("contracts/form.html", form = form)
+
+@app.route("/contracts/<int:contract_id>/", methods=["GET"])
+@login_required
+def contracts_view(contract_id):
+    contract = Contract.query.get(contract_id)
+    form = ContractPartyForm()
+    form.parties.choices = [(party.id, party.name) for party in Party.query.order_by('name').all()]
+    form.parties.choices.insert(0, (0, "-- Valitse osapuoli --"))
+    return render_template("contracts/view.html", contract = contract, form = form, today = date.today(), addPartyError = 0)
 
 @app.route("/contracts/delete/<contract_id>/", methods=["POST"])
 @login_required
@@ -72,15 +81,6 @@ def contracts_edit(contract_id):
     db.session().commit()
   
     return redirect(url_for('contracts_view', contract_id=contract_id))
-
-@app.route("/contracts/<int:contract_id>/", methods=["GET"])
-@login_required
-def contracts_view(contract_id):
-    contract = Contract.query.get(contract_id)
-    form = ContractPartyForm()
-    form.parties.choices = [(party.id, party.name) for party in Party.query.order_by('name').all()]
-    form.parties.choices.insert(0, (0, "-- Valitse osapuoli --"))
-    return render_template("contracts/view.html", contract = contract, form = form, today = date.today(), addPartyError = 0)
 
 @app.route("/contracts/<int:contract_id>/", methods=["POST"])
 @login_required

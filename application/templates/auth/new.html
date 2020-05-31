@@ -3,74 +3,85 @@
 {% block body %}
 <h2>Lisää uusi käyttäjä</h2>
 
-<form method="POST" action="{{ url_for('users_create') }}">
-  <table>
-    <tr>
-      <td>
-        {{ form.name.label }}
-      </td>
-      <td>
-        {{ form.name }}
-      </td>
-      <td>
-        <ul>
-          {% for error in form.name.errors %}
-            <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        {{ form.username.label }}
-      </td>
-      <td>
-        {{ form.username }}
-      </td>
-      <td>
-        <ul>
-          {% for error in form.username.errors %}
-            <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        {{ form.password.label }}
-      </td>
-      <td>
-        {{ form.password }}
-      </td>
-      <td>
-        <ul>
-          {% for error in form.password.errors %}
-            <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        {{ form.confirmPassword.label }}
-      </td>
-      <td>
-        {{ form.confirmPassword }}
-      </td>
-      <td>
-        <ul>
-          {% for error in form.confirmPassword.errors %}
-            <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2">
-        <input type="submit" value="Lisää käyttäjä"/>
-      </td>
-      <td></td>
-    </tr>
-  </table>
+{% if form.errors %}
+<div class="alert alert-danger" role="alert">
+  <p><strong>Lomakkeessa oli virheitä!</strong></p>
+  <p>Tarkista punaisella merkittyjen kenttien tiedot ja yritä uudelleen.</p>
+</div>
+{% endif %}
+
+<form method="POST" action="{{ url_for('users_create') }}" class="needs-validation">
+
+  <div class="form-group">
+    {{ form.name.label }} *
+    {% if form.name.errors %}
+    {{ form.name(class_="form-control is-invalid") }}
+    <div class="invalid-feedback">
+      {% for error in form.name.errors %}
+      {{ error }}
+      {% endfor %}
+    </div>
+    {% else %}
+    {{ form.name(class_="form-control") }}
+      {% if form.name.description %}
+      <small class="form-text text-muted">{{ form.name.description }}</small>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="form-group">
+    {{ form.username.label }} *
+    {% if form.username.errors %}
+    {{ form.username(class_="form-control is-invalid") }}
+    <div class="invalid-feedback">
+      {% for error in form.username.errors %}
+      {{ error }}
+      {% endfor %}
+    </div>
+    {% else %}
+    {{ form.username(class_="form-control") }}
+      {% if form.username.description %}
+      <small class="form-text text-muted">{{ form.username.description }}</small>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      {{ form.password.label }} *
+      {% if form.password.errors %}
+      {{ form.password(class_="form-control is-invalid") }}
+      <div class="invalid-feedback">
+        {% for error in form.password.errors %}
+        {{ error }}
+        {% endfor %}
+      </div>
+      {% else %}
+      {{ form.password(class_="form-control") }}
+        {% if form.password.description %}
+        <small class="form-text text-muted">{{ form.password.description }}</small>
+        {% endif %}
+      {% endif %}
+    </div>
+    <div class="form-group col-md-6">
+      {{ form.confirmPassword.label }} *
+      {% if form.confirmPassword.errors %}
+      {{ form.confirmPassword(class_="form-control is-invalid") }}
+      <div class="invalid-feedback">
+        {% for error in form.confirmPassword.errors %}
+        {{ error }}
+        {% endfor %}
+      </div>
+      {% else %}
+      {{ form.confirmPassword(class_="form-control") }}
+        {% if form.confirmPassword.description %}
+        <small class="form-text text-muted">{{ form.confirmPassword.description }}</small>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary mr-1">Lisää käyttäjä</button>
+
 </form>
 {% endblock %}

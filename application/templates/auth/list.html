@@ -1,17 +1,25 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <h2>Käyttäjät</h2>
+  <h2>Käyttäjät <a href="{{ url_for('users_new') }}" class="btn btn-secondary ml-3" role="button">Uusi &raquo;</a></h2>
 
-  <table>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Tunnus</th>
+        <th scope="col">Nimi</th>
+        <th scope="col">Sopimuksia</th>
+        <th></th>
+      </tr>
+  </thead>
+    {% for user in users|sort(attribute='username') %}
     <tr>
-      <th>Käyttäjätunnus</th>
-      <th>Nimi</th>
-    </tr>
-    {% for user in users %}
-    <tr>
-      <td>{{ user.username }}</td>
-      <td>{{ user.name }}</td>
+      <td class="align-middle">{{ user.username }}</td>
+      <td class="align-middle">{{ user.name }}</td>
+      <td class="align-middle">{{ user.contracts_count }}</td>
+      <td class="align-middle">
+        <a href="{{ url_for('users_edit_form', user_id=user.id) }}" class="btn btn-primary">Muokkaa käyttäjää</a>
+      </td>
     </tr>
     {% endfor %}
   </table>

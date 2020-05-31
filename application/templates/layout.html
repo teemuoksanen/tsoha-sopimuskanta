@@ -22,14 +22,14 @@
             <a class="nav-link dropdown-toggle" href="{{ url_for('contracts_index') }}" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sopimukset</a>
             <div class="dropdown-menu" aria-labelledby="dropdown01">
               <a class="dropdown-item" href="{{ url_for('contracts_index') }}">Listaa sopimukset</a>
-              <a class="dropdown-item" href="{{ url_for('contracts_form') }}">Lisää uusi sopimus</a>
+              <a class="dropdown-item" href="{{ url_for('contracts_new') }}">Lisää uusi sopimus</a>
             </div>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="{{ url_for('parties_index') }}" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Osapuolet</a>
             <div class="dropdown-menu" aria-labelledby="dropdown01">
               <a class="dropdown-item" href="{{ url_for('parties_index') }}">Listaa osapuolet</a>
-              <a class="dropdown-item" href="{{ url_for('parties_form') }}">Lisää uusi osapuoli</a>
+              <a class="dropdown-item" href="{{ url_for('parties_new') }}">Lisää uusi osapuoli</a>
             </div>
           </li>
           <li class="nav-item">
@@ -39,7 +39,7 @@
             <a class="nav-link dropdown-toggle" href="{{ url_for('users_index') }}" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Käyttäjät</a>
             <div class="dropdown-menu" aria-labelledby="dropdown01">
               <a class="dropdown-item" href="{{ url_for('users_index') }}">Listaa käyttäjät</a>
-              <a class="dropdown-item" href="{{ url_for('users_form') }}">Lisää uusi käyttäjä</a>
+              <a class="dropdown-item" href="{{ url_for('users_new') }}">Lisää uusi käyttäjä</a>
             </div>
           </li>
         </ul>

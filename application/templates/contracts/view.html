@@ -16,7 +16,7 @@
       <h5 class="card-header">Osapuolet</h5>
       {% if contract.parties %}
       <ul class="list-group list-group-flush">
-        {% for party in contract.parties %}
+        {% for party in contract.parties|sort(attribute='name') %}
           {% if party.bankrupt %}
           <li class="list-group-item list-group-item-danger d-flex flex-row">
             <div class="p-2"><strong><a href="{{ url_for('parties_view', party_id=party.id) }}">{{ party.name }}</a></strong> (konkurssissa)</div>
@@ -70,7 +70,7 @@
         <p><a href="{{ url_for('contracts_edit_form', contract_id=contract.id) }}" class="btn btn-primary">Muokkaa sopimusta</a></p>
         <p><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteContract">Poista sopimus</button></p>
       </div>
-    </div>    
+    </div>  
   </div>
 
 </div>
@@ -93,7 +93,7 @@
           {% endif %}
         </div>
         <div class="modal-footer">
-          <a href="{{ url_for('parties_form') }}" class="btn btn-secondary">Luo uusi osapuoli</a>
+          <a href="{{ url_for('parties_new') }}" class="btn btn-secondary">Luo uusi osapuoli</a>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Peruuta</button>
           <button type="submit" class="btn btn-primary">Lisää</button>
         </div>

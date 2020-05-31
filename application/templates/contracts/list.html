@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <h2>Sopimukset</h2>
+  <h2>Sopimukset <a href="{{ url_for('contracts_new') }}" class="btn btn-secondary ml-3" role="button">Uusi &raquo;</a></h2>
 
   <table class="table table-striped">
     <thead>
@@ -11,7 +11,7 @@
         <th scope="col"></th>
       </tr>
     </thead>
-    {% for contract in contracts %}
+    {% for contract in contracts|sort(attribute='date_signed') %}
     <tr>
       <td class="align-middle">{{ contract.name }}</td>
       <td class="align-middle">{{ contract.date_signed.strftime("%-d.%-m.%Y") }}</td>

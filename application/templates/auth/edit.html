@@ -1,0 +1,116 @@
+{% extends "layout.html" %}
+  
+{% block body %}
+<h2>Muokkaa käyttäjää <em>{{ user.username }}</em></h2>
+
+{% if updated == "user" %}
+<div class="alert alert-success" role="alert">
+  Käyttäjän <em>{{ user.username }}</em> tiedot on päivitetty.
+</div>
+{% endif %}
+
+{% if updated == "pw" %}
+<div class="alert alert-success" role="alert">
+  Käyttäjän <em>{{ user.username }}</em> salasana on päivitetty.
+</div>
+{% endif %}
+
+{% if form.errors %}
+<div class="alert alert-danger" role="alert">
+  <p><strong>Käyttäjän tietojen muuttaminen ei onnistunut!</strong></p>
+  <p>Tarkista punaisella merkittyjen kenttien tiedot ja yritä uudelleen.</p>
+</div>
+{% endif %}
+
+{% if form_pw.errors %}
+<div class="alert alert-danger" role="alert">
+  <p><strong>Salasanan muuttaminen ei onnistunut!</strong></p>
+  <p>Tarkista punaisella merkittyjen kenttien tiedot ja yritä uudelleen.</p>
+</div>
+{% endif %}
+
+<form method="POST" action="{{ url_for('users_edit', user_id=user.id) }}" class="needs-validation">
+
+  <div class="form-group">
+    {{ form.name.label }} *
+    {% if form.name.errors %}
+    {{ form.name(class_="form-control is-invalid") }}
+    <div class="invalid-feedback">
+      {% for error in form.name.errors %}
+      {{ error }}
+      {% endfor %}
+    </div>
+    {% else %}
+    {{ form.name(class_="form-control") }}
+      {% if form.name.description %}
+      <small class="form-text text-muted">{{ form.name.description }}</small>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="form-group">
+    {{ form.username.label }} *
+    {% if form.username.errors %}
+    {{ form.username(class_="form-control is-invalid") }}
+    <div class="invalid-feedback">
+      {% for error in form.username.errors %}
+      {{ error }}
+      {% endfor %}
+    </div>
+    {% else %}
+    {{ form.username(class_="form-control") }}
+      {% if form.username.description %}
+      <small class="form-text text-muted">{{ form.username.description }}</small>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <button type="submit" class="btn btn-primary mr-1">Muokkaa tietoja</button>
+
+</form>
+
+<hr />
+
+<h3>Muuta salasanaa</h3>
+
+<form method="POST" action="{{ url_for('users_edit_pw', user_id=user.id) }}" class="needs-validation">
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+    {{ form_pw.password.label }} *
+    {% if form_pw.password.errors %}
+    {{ form_pw.password(class_="form-control is-invalid") }}
+    <div class="invalid-feedback">
+        {% for error in form_pw.password.errors %}
+        {{ error }}
+        {% endfor %}
+    </div>
+    {% else %}
+    {{ form_pw.password(class_="form-control") }}
+        {% if form_pw.password.description %}
+        <small class="form-text text-muted">{{ form_pw.password.description }}</small>
+        {% endif %}
+    {% endif %}
+    </div>
+    <div class="form-group col-md-6">
+    {{ form_pw.confirmPassword.label }} *
+    {% if form_pw.confirmPassword.errors %}
+    {{ form_pw.confirmPassword(class_="form-control is-invalid") }}
+    <div class="invalid-feedback">
+        {% for error in form_pw.confirmPassword.errors %}
+        {{ error }}
+        {% endfor %}
+    </div>
+    {% else %}
+    {{ form_pw.confirmPassword(class_="form-control") }}
+        {% if form_pw.confirmPassword.description %}
+        <small class="form-text text-muted">{{ form_pw.confirmPassword.description }}</small>
+        {% endif %}
+    {% endif %}
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary mr-1">Muuta salasana</button>
+
+</form>
+{% endblock %}

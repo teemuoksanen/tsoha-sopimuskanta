@@ -1,6 +1,8 @@
 from application import db
 from application.models import Base
 
+from sqlalchemy.sql import text
+
 class User(Base):
 
     __tablename__ = "account"
@@ -27,3 +29,16 @@ class User(Base):
 
     def is_authenticated(self):
         return True
+
+    @staticmethod
+    def users_with_contracts_count():
+        stmt = text("SELECT Account.id, Account.username, Account.name, COUNT(Contract.id) FROM Account"
+                    " LEFT JOIN Contract ON Contract.account_id = Account.id"
+                    " GROUP BY Account.id")
+        res = db.engine.execute(stmt)
+
+        response = []
+        for row in res:
+            response.append({"id":row[0], "username":row[1], "name":row[2], "contracts_count":row[3]})
+
+        return response
