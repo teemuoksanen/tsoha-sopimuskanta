@@ -3,7 +3,7 @@ from application.models import Base
 
 from sqlalchemy.sql import text
 
-contractparties = db.Table('ContractParty',
+contractparties = db.Table('contractparty',
     db.Column('contract_id', db.Integer, db.ForeignKey('contract.id'), primary_key=True),
     db.Column('party_id', db.Integer, db.ForeignKey('party.id'), primary_key=True)
 )
@@ -29,7 +29,7 @@ class Contract(Base):
     @staticmethod
     def parties_not_linked_to_contract(contract_id):
         stmt = text("SELECT Party.id, Party.name FROM Party"
-                    " LEFT JOIN ContractParty ON Party.id = ContractParty.party_id"
+                    " LEFT JOIN ContractParty ON (Party.id = ContractParty.party_id)"
                     " WHERE Party.id NOT IN"
                     " (SELECT party_id FROM ContractParty WHERE contract_id = :contract_id)"
                     " GROUP BY Party.id"
