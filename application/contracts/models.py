@@ -31,7 +31,7 @@ class Contract(Base):
         stmt = text("SELECT Party.id, Party.name FROM Party"
                     " LEFT JOIN ContractParty ON Party.id = ContractParty.party_id"
                     " WHERE Party.id NOT IN"
-                    " (SELECT party_id FROM ContractParty WHERE contract_id IS :contract_id)"
+                    " (SELECT party_id FROM ContractParty WHERE contract_id = :contract_id)"
                     " GROUP BY Party.id"
                     ).params(contract_id=contract_id)
         res = db.engine.execute(stmt)

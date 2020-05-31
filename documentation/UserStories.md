@@ -69,7 +69,7 @@ Tätä kyselyä käytetään _Lisää osapuoli sopimukselle_-lomakkeella. Lomakk
 SELECT Party.id, Party.name FROM Party
     LEFT JOIN ContractParty ON Party.id = ContractParty.party_id
     WHERE Party.id NOT IN
-    (SELECT party_id FROM ContractParty WHERE contract_id IS ?)
+    (SELECT party_id FROM ContractParty WHERE contract_id = ?)
     GROUP BY Party.id;
 ```
 
