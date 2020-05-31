@@ -16,7 +16,7 @@ HUOM! Tällä hetkellä kaikki käyttäjät toimivat ylläpitäjän oikeuksilla 
 
 ## Dokumentaatio
 
-- [Käyttäjätarinat (User storyt)](https://github.com/teemuoksanen/tsoha-sopimuskanta/blob/master/documentation/UserStories.md)
+- [Käyttäjätarinat ja SQL-kyselyt](https://github.com/teemuoksanen/tsoha-sopimuskanta/blob/master/documentation/UserStories.md)
 
 ## Alustava tietokantakaavio
 

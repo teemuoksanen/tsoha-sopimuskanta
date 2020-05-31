@@ -1,18 +1,91 @@
-# Sopimuskanta - User storyt
+# Käyttäjätarinat
 
-## As a user...
-- ...I can list all contracts and parties.
-- ...I can add myself a reminder related to a contract.
+Käyttäjätarinoiden (_user story_) perässä oleva numero viittaa dokumentin lopussa oleviin SQL-kyselyihin.
 
-## As an editor...
-- ...I can add a new contract and I am marked as its owner. If the counterparty of the contract is not found, also a new party is added.
-- ...I can edit the details of a contract that I own.
-- ...if I add an expiry date for a contract, that will automatically create a reminder to the user owning the contract.
-- ...I can add a new party or edit the details of an existing party.
-- ...I can add myself or another user a reminder related to a contract.
-- ...I can mark a party as bankrupt, and that will automatically create a reminder to the user owning the contract.
+## Käyttäjänä voin...
+- ...listata kaikki sopimukset sekä osapuolet. (1)
+- ...lisätä uusia sopimuksia (jolloin minut merkitään sopimuksen omistajaksi), osapuolia sekä sopimuksiin liittyviä muistutuksia. (2)
+- ...muokata omistamieni sopimusten tietoja tai poistaa kyseiset sopimukset. (3)
+- ...muokata tai poistaa omia muistutuksiani. (4)
+- ...muokata kaikkien osapuolten tietoja. (5)
+- ...muokata omia tietojani ja vaihtaa salasanaani.
+- ...lisätä osapuolia niihin sopimuksiin, joiden omistaja olen. (4)
 
-## As a super user...
-- ...I can edit the details and the owner of all contracts.
-- ...I can list reminders of all users related to each contract.
-- ...I can add and remove users.
+## Ylläpitäjänä voin lisäksi...
+- ...luoda uusia käyttäjiä.
+- ...poistaa minkä tahansa sopimuksen, osapuolen (jos osapuoli ei ole aktiivisena jollain sopimuksella), muistutuksen tai käyttäjän.
+- ...muokata mitä tahansa sopimusta, muistutusta tai käyttäjää.
+- ...lisätä muistutuksia kaikille käyttäjille.
+
+## Yleisiä käyttötapauksia
+- Jos sopimukselle lisätään päättymispäivä, sopimuksen omistajalle lisätään muistutus.
+- Jos osapuoli asetetaan konkurssiin, kaikille osapuolten sopimusten omistajille lisätään muistutus.
+
+# SQL-kyselyt
+
+## 1. Yleiset
+
+Tässä osiossa on yleisesti käytetyt, yksinkertaiset SQL-kyselyt toteutettuna sopimuksille - ne toimivat kuitenkin vastaavalla tavalla kaikille tauluille. Erityisemmät käyttötapaukset on listattu tyyppikohtaisesti.
+
+### 1a. Kohteen lisääminen
+
+```
+INSERT INTO Contract
+    (name, date_signed, date_entry, date_expiry, account_id)
+    VALUES (?, ?, ?, ?, ?);
+```
+
+### 1b. Kohteen muokkaaminen
+
+```
+UPDATE Contract
+    SET name = ?, date_signed = ?, date_entry = ?, date_expiry = ?, account_id = ?
+    WHERE id = ?;
+```
+
+### 1c. Kohteen poistaminen
+
+```
+DELETE FROM Contract
+    WHERE id = ?;
+```
+
+### 1c. Kaikkien kohteiden listaaminen
+
+```
+SELECT * FROM Contract;
+```
+
+## 2. Sopimukset
+
+### 2a. Niiden osapuolten listaaminen, joita ei ole liitetty sopimukseen
+
+Tätä kyselyä käytetään _Lisää osapuoli sopimukselle_-lomakkeella. Lomakkeella ei tällöin näytetä niitä osapuolia, jotka on jo liitetty sopimukselle.
+
+```
+SELECT Party.id, Party.name FROM Party
+    LEFT JOIN ContractParty ON Party.id = ContractParty.party_id
+    WHERE Party.id NOT IN
+    (SELECT party_id FROM ContractParty WHERE contract_id IS ?)
+    GROUP BY Party.id;
+```
+
+## 3. Osapuolet
+
+_osio kesken_
+
+## 4. Muistutukset
+
+_osio kesken_
+
+## 5. Käyttäjät
+
+### 4a. Sopimusten määrän liittäminen käyttäjälistaukseen
+
+Tätä kyselyä käytetään käyttäjälistaukessa, jossa näytetään kunkin käyttäjän tietojen lisäksi kunkin käyttäjän omistamien sopimusten määrä.
+
+```
+SELECT Account.id, Account.username, Account.name, COUNT(Contract.id) FROM Account
+    LEFT JOIN Contract ON Contract.account_id = Account.id
+    GROUP BY Account.id;
+```
