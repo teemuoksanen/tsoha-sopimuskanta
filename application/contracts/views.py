@@ -41,7 +41,7 @@ def contracts_new():
 def contracts_view(contract_id):
     contract = Contract.query.get(contract_id)
     form = ContractPartyForm()
-    form.parties.choices = [(party.id, party.name) for party in Party.query.order_by('name').all()]
+    form.parties.choices = Contract.parties_not_linked_to_contract(contract_id=contract_id)
     form.parties.choices.insert(0, (0, "-- Valitse osapuoli --"))
     return render_template("contracts/view.html", contract = contract, form = form, today = date.today(), addPartyError = 0)
 
