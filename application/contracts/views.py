@@ -1,5 +1,5 @@
-from application import app, db
-from flask_login import login_required, current_user
+from application import app, db, login_required
+from flask_login import current_user
 
 from flask import redirect, render_template, request, url_for
 from datetime import date
@@ -12,7 +12,7 @@ def contracts_index():
     return render_template("contracts/list.html", contracts = Contract.query.all())
 
 @app.route("/contracts/", methods=["POST"])
-@login_required
+@login_required(role="ANY")
 def contracts_create():
     form = ContractForm(request.form)
 
@@ -31,13 +31,13 @@ def contracts_create():
     return redirect(url_for("contracts_index"))
 
 @app.route("/contracts/new/")
-@login_required
+@login_required(role="ANY")
 def contracts_new():
     form = ContractForm()
     return render_template("contracts/form.html", form = form)
 
 @app.route("/contracts/<int:contract_id>/", methods=["GET"])
-@login_required
+@login_required(role="ANY")
 def contracts_view(contract_id):
     contract = Contract.query.get(contract_id)
     form = ContractPartyForm()
@@ -46,7 +46,7 @@ def contracts_view(contract_id):
     return render_template("contracts/view.html", contract = contract, form = form, today = date.today(), addPartyError = 0)
 
 @app.route("/contracts/delete/<contract_id>/", methods=["POST"])
-@login_required
+@login_required(role="ANY")
 def contracts_delete(contract_id):
 
     contract = Contract.query.get(contract_id)
@@ -57,14 +57,14 @@ def contracts_delete(contract_id):
     return redirect(url_for("contracts_index"))
 
 @app.route("/contracts/edit/<int:contract_id>/", methods=["GET"])
-@login_required
+@login_required(role="ANY")
 def contracts_edit_form(contract_id):
     contract = Contract.query.get(contract_id)
     form = ContractForm(obj=contract)
     return render_template("contracts/form.html", form = form, action = "edit", contract_id = contract_id)
 
 @app.route("/contracts/edit/<int:contract_id>/", methods=["POST"])
-@login_required
+@login_required(role="ANY")
 def contracts_edit(contract_id):
     form = ContractForm(request.form)
 
@@ -83,7 +83,7 @@ def contracts_edit(contract_id):
     return redirect(url_for('contracts_view', contract_id=contract_id))
 
 @app.route("/contracts/<int:contract_id>/", methods=["POST"])
-@login_required
+@login_required(role="ANY")
 def contracts_addparty(contract_id):
     contract = Contract.query.get(contract_id)
     form = ContractPartyForm(request.form)
@@ -101,7 +101,7 @@ def contracts_addparty(contract_id):
     return redirect(url_for('contracts_view', contract_id=contract_id))
 
 @app.route("/contracts/<int:contract_id>/removeparty/<int:party_id>/", methods=["GET"])
-@login_required
+@login_required(role="ANY")
 def contracts_removeparty(contract_id, party_id):
     contract = Contract.query.get(contract_id)
     form = ContractPartyForm()

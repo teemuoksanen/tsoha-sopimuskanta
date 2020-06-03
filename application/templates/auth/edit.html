@@ -65,6 +65,23 @@
     {% endif %}
   </div>
 
+  <div class="form-group">
+    {{ form.user_role.label }} *
+    {% if form.user_role.errors %}
+    {{ form.user_role(class_="form-control is-invalid") }}
+    <div class="invalid-feedback">
+      {% for error in form.user_role.errors %}
+      {{ error }}
+      {% endfor %}
+    </div>
+    {% else %}
+    {{ form.user_role(class_="form-control") }}
+      {% if form.user_role.description %}
+      <small class="form-text text-muted">{{ form.user_role.description }}</small>
+      {% endif %}
+    {% endif %}
+  </div>
+
   <button type="submit" class="btn btn-primary mr-1">Muokkaa tietoja</button>
 
 </form>

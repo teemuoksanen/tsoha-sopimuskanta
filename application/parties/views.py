@@ -1,6 +1,6 @@
-from application import app, db
+from application import app, db, login_required
 from flask import redirect, render_template, request, url_for
-from flask_login import login_required
+from flask_login import current_user
 
 from application.parties.models import Party
 from application.parties.forms import PartyForm
@@ -10,7 +10,7 @@ def parties_index():
     return render_template("parties/list.html", parties = Party.query.all())
 
 @app.route("/parties/", methods=["POST"])
-@login_required
+@login_required(role="ANY")
 def parties_create():
     form = PartyForm(request.form)
 
@@ -30,19 +30,19 @@ def parties_create():
     return redirect(url_for("parties_index"))
 
 @app.route("/parties/new/")
-@login_required
+@login_required(role="ANY")
 def parties_new():
     form = PartyForm()
     return render_template("parties/form.html", form = form)
 
 @app.route("/parties/<int:party_id>/", methods=["GET"])
-@login_required
+@login_required(role="ANY")
 def parties_view(party_id):
     party = Party.query.get(party_id)
     return render_template("parties/view.html", party = party)
 
 @app.route("/parties/delete/<party_id>/", methods=["POST"])
-@login_required
+@login_required(role="ANY")
 def parties_delete(party_id):
 
     party = Party.query.get(party_id)
@@ -53,14 +53,14 @@ def parties_delete(party_id):
     return redirect(url_for("parties_index"))
 
 @app.route("/parties/edit/<int:party_id>/", methods=["GET"])
-@login_required
+@login_required(role="ANY")
 def parties_edit_form(party_id):
     party = Party.query.get(party_id)
     form = PartyForm(obj=party)
     return render_template("parties/form.html", form = form, action = "edit", party_id = party_id)
 
 @app.route("/parties/edit/<int:party_id>/", methods=["POST"])
-@login_required
+@login_required(role="ANY")
 def parties_edit(party_id):
     form = PartyForm(request.form)
 
@@ -80,7 +80,7 @@ def parties_edit(party_id):
     return redirect(url_for('parties_view', party_id=party_id))
 
 @app.route("/parties/<party_id>/setbankrupt/", methods=["POST"])
-@login_required
+@login_required(role="ANY")
 def parties_set_bankrupt(party_id):
 
     party = Party.query.get(party_id)
@@ -90,7 +90,7 @@ def parties_set_bankrupt(party_id):
     return redirect(url_for('parties_view', party_id=party.id))
 
 @app.route("/parties/<party_id>/unsetbankrupt/", methods=["POST"])
-@login_required
+@login_required(role="ANY")
 def parties_unset_bankrupt(party_id):
 
     party = Party.query.get(party_id)

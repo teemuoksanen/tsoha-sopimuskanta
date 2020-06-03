@@ -10,13 +10,15 @@ class User(Base):
     name = db.Column(db.String(144), nullable=False)
     username = db.Column(db.String(144), nullable=False)
     password = db.Column(db.String(144), nullable=False)
+    user_role = db.Column(db.String(80), nullable=False)
 
     contracts = db.relationship("Contract", backref='account', lazy=True)
 
-    def __init__(self, name, username, password):
+    def __init__(self, name, username, password, user_role):
         self.name = name
         self.username = username
         self.password = password
+        self.user_role = user_role
   
     def get_id(self):
         return self.id
@@ -29,6 +31,9 @@ class User(Base):
 
     def is_authenticated(self):
         return True
+
+    def roles(self):
+        return self.user_role
 
     @staticmethod
     def users_with_contracts_count():
