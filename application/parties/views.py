@@ -65,7 +65,7 @@ def parties_edit(party_id):
     form = PartyForm(request.form)
 
     if not form.validate():
-        return render_template("parties/form.html", form = form, action = "edit")
+        return render_template("parties/form.html", form = form, action = "edit", party_id = party_id)
 
     editedParty = Party.query.get(party_id)
     editedParty.name = form.name.data
