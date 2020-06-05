@@ -18,7 +18,7 @@ class Contract(Base):
     notes = db.Column(db.String(250))
 
     parties = db.relationship('Party', secondary=contractparties, lazy='subquery',
-        backref=db.backref('contracts', lazy='dynamic'))
+        backref=db.backref('contracts', lazy='subquery'))
 
     account_id = db.Column(db.Integer, db.ForeignKey('account.id'),
                            nullable=False)
