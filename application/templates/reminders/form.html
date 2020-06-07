@@ -1,0 +1,119 @@
+{% extends "layout.html" %}
+  
+{% block body %}
+{% if action == "edit" %}
+  <h2>Muokkaa muistutusta</h2>
+{% else %}
+  <h2>Lisää muistutus</h2>
+{% endif %}
+
+{% if form.errors %}
+<div class="alert alert-danger" role="alert">
+  <p><strong>Lomakkeessa oli virheitä!</strong></p>
+  <p>Tarkista punaisella merkittyjen kenttien tiedot ja yritä uudelleen.</p>
+</div>
+{% endif %}
+
+{% if action == "edit" %}
+<form method="POST" action="{{ url_for('reminders_edit_form', reminder_id=reminder_id) }}" class="needs-validation">
+{% else %}
+<form method="POST" action="{{ url_for('reminders_create') }}" class="needs-validation">
+{% endif %}
+
+  <div class="form-group">
+    {{ form.note.label }} *
+    {% if form.note.errors %}
+    {{ form.note(class_="form-control is-invalid") }}
+    <div class="invalid-feedback">
+      {% for error in form.note.errors %}
+      {{ error }}
+      {% endfor %}
+    </div>
+    {% else %}
+    {{ form.note(class_="form-control") }}
+      {% if form.note.description %}
+      <small class="form-text text-muted">{{ form.note.description }}</small>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="form-group">
+    {{ form.date_remind.label }} *
+    {% if form.date_remind.errors %}
+    {{ form.date_remind(class_="form-control is-invalid") }}
+    <div class="invalid-feedback">
+      {% for error in form.date_remind.errors %}
+      {{ error }}
+      {% endfor %}
+    </div>
+    {% else %}
+    {{ form.date_remind(class_="form-control") }}
+      {% if form.date_remind.description %}
+      <small class="form-text text-muted">{{ form.date_remind.description }}</small>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="form-group">
+    {{ form.contract_id.label }} *
+    <select class="selectpicker show-tick form-control" data-live-search="true" id="contract_id" name="contract_id" required title="Valitse sopimus...">
+      {% for value in form.contract_id.choices %}
+      {% if form.contract_id.data == value.0 %}
+      <option selected value="{{ value.0 }}">{{ value.1 }}</option>
+      {% elif contract_id == value.0 %}
+      <option selected value="{{ value.0 }}">{{ value.1 }}</option>
+      {% else %}
+      <option value="{{ value.0 }}">{{ value.1 }}</option>
+      {% endif %}
+      {% endfor %}
+    </select>
+    {% if form.contract_id.errors %}
+    <div class="invalid-feedback">
+      {% for error in form.contract_id.errors %}
+      {{ error }}
+      {% endfor %}
+    </div>
+    {% else %}
+      {% if form.contract_id.description %}
+      <small class="form-text text-muted">{{ form.contract_id.description }}</small>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  {% if current_user.user_role == "ADMIN" %}
+  <div class="form-group">
+    {{ form.account_id.label }} *
+    <select class="selectpicker show-tick form-control" data-live-search="true" id="account_id" name="account_id" required title="Valitse käyttäjä...">
+      {% for value in form.account_id.choices %}
+      {% if form.account_id.data == value.0 %}
+      <option selected value="{{ value.0 }}">{{ value.1 }}</option>
+      {% else %}
+      <option value="{{ value.0 }}">{{ value.1 }}</option>
+      {% endif %}
+      {% endfor %}
+    </select>
+    {% if form.account_id.errors %}
+    <div class="invalid-feedback">
+      {% for error in form.account_id.errors %}
+      {{ error }}
+      {% endfor %}
+    </div>
+    {% else %}
+      {% if form.account_id.description %}
+      <small class="form-text text-muted">{{ form.account_id.description }}</small>
+      {% endif %}
+    {% endif %}
+  </div>
+  {% else %}
+  <input type="hidden" name="account_id" id="account_id" value="{{ current_user.id }}" />
+  {% endif %}
+
+{% if action == "edit" %}
+  <button type="submit" class="btn btn-primary">Tallenna</button>
+  <button type="reset" class="btn btn-secondary">Palauta muutokset</button>
+  {% else %}
+  <button type="submit" class="btn btn-primary mr-1">Lisää</button>
+  {% endif %}
+
+</form>
+{% endblock %}

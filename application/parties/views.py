@@ -38,14 +38,14 @@ def parties_new():
 @app.route("/parties/<int:party_id>/", methods=["GET"])
 @login_required(role="ANY")
 def parties_view(party_id):
-    party = Party.query.get(party_id)
+    party = Party.query.get_or_404(party_id)
     return render_template("parties/view.html", party = party)
 
 @app.route("/parties/delete/<party_id>/", methods=["POST"])
 @login_required(role="ANY")
 def parties_delete(party_id):
 
-    party = Party.query.get(party_id)
+    party = Party.query.get_or_404(party_id)
 
     db.session().delete(party)
     db.session().commit()
@@ -55,7 +55,7 @@ def parties_delete(party_id):
 @app.route("/parties/edit/<int:party_id>/", methods=["GET"])
 @login_required(role="ANY")
 def parties_edit_form(party_id):
-    party = Party.query.get(party_id)
+    party = Party.query.get_or_404(party_id)
     form = PartyForm(obj=party)
     return render_template("parties/form.html", form = form, action = "edit", party_id = party_id)
 
@@ -67,7 +67,7 @@ def parties_edit(party_id):
     if not form.validate():
         return render_template("parties/form.html", form = form, action = "edit", party_id = party_id)
 
-    editedParty = Party.query.get(party_id)
+    editedParty = Party.query.get_or_404(party_id)
     editedParty.name = form.name.data
     editedParty.business_id = form.business_id.data
     editedParty.address_street = form.address_street.data
@@ -83,7 +83,7 @@ def parties_edit(party_id):
 @login_required(role="ANY")
 def parties_set_bankrupt(party_id):
 
-    party = Party.query.get(party_id)
+    party = Party.query.get_or_404(party_id)
     party.bankrupt = True
     db.session().commit()
 
@@ -93,7 +93,7 @@ def parties_set_bankrupt(party_id):
 @login_required(role="ANY")
 def parties_unset_bankrupt(party_id):
 
-    party = Party.query.get(party_id)
+    party = Party.query.get_or_404(party_id)
     party.bankrupt = False
     db.session().commit()
 

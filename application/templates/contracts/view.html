@@ -67,6 +67,7 @@
     <div class="card">
       <h5 class="card-header">Toiminnot</h5>
       <div class="card-body text-center">
+        <p><a href="{{ url_for('reminders_new_for_contract', contract_id=contract.id) }}" class="btn btn-primary">Lisää muistutus</a></p>
         <p><a href="{{ url_for('contracts_edit_form', contract_id=contract.id) }}" class="btn btn-primary">Muokkaa sopimusta</a></p>
         <p><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteContract">Poista sopimus</button></p>
       </div>
@@ -87,7 +88,15 @@
       </div>
       <form method="POST" action="{{ url_for('contracts_addparty', contract_id=contract.id) }}">
         <div class="modal-body">
-          {{ form.parties(class_="form-control") }}
+          <select class="selectpicker show-tick form-control" data-live-search="true" id="parties" name="parties" required title="Valitse osapuoli...">
+            {% for value in form.parties.choices %}
+            {% if form.parties.data == value.0 %}
+            <option selected value="{{ value.0 }}">{{ value.1 }}</option>
+            {% else %}
+            <option value="{{ value.0 }}">{{ value.1 }}</option>
+            {% endif %}
+            {% endfor %}
+          </select>
           {% if form.parties.description %}
           <small class="form-text text-muted">{{ form.parties.description }}</small>
           {% endif %}

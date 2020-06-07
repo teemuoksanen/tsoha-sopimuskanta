@@ -14,7 +14,12 @@
   </thead>
     {% for user in users|sort(attribute='username') %}
     <tr>
-      <td class="align-middle">{{ user.username }}</td>
+      <td class="align-middle">
+        {{ user.username }}
+        {% if user.user_role == "ADMIN" %}
+        <img src="/static/pics/admin_black.png" alt="Käyttäjä on ylläpitäjä" style="height: 1em" />
+        {% endif %}
+      </td>
       <td class="align-middle">{{ user.name }}</td>
       <td class="align-middle">{{ user.contracts_count }}</td>
       <td class="align-middle">

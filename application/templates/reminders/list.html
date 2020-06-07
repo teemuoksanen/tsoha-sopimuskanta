@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <h2>Muistutukset <a href="{{ url_for('reminders_new') }}" class="btn btn-secondary ml-3" role="button">Uusi &raquo;</a></h2>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Muistutus</th>
+        <th scope="col">Käyttäjä</th>
+        <th scope="col">Päivä</th>
+        <th scope="col">Tehty</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    {% for reminder in reminders|sort(attribute='date_remind') %}
+    <tr>
+      <td class="align-middle">
+        <div><strong><a href="{{ url_for('contracts_view', contract_id=reminder.contract_id) }}">{{ reminder.contract_name|truncate(25,true) }}</a></strong></div>
+        <div>{{ reminder.note }}</div>
+      </td>
+      <td class="align-middle">{{ reminder.account_username }}</td>
+      <td class="align-middle">{{ reminder.date_remind }}</td>
+      <td class="align-middle">
+        {% if reminder.done %}
+        X
+        {% endif %}
+      </td>
+      <td class="align-middle">
+        {% if reminder.done %}
+        <form method="POST" action="{{ url_for('reminders_unset_done', reminder_id=reminder.id) }}">
+          <button type="submit" class="btn btn-warning">Nollaa</button>
+        </form>
+        {% else %}
+        <form method="POST" action="{{ url_for('reminders_set_done', reminder_id=reminder.id) }}">
+          <button type="submit" class="btn btn-warning">Tehty</button>
+        </form>
+        {% endif %}
+      </td>
+      <td class="align-middle">
+        <a href="{{ url_for('reminders_edit_form', reminder_id = reminder.id) }}" class="btn btn-primary">Muokkaa</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

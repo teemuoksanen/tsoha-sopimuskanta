@@ -57,6 +57,10 @@ from application.contracts import views
 from application.parties import models
 from application.parties import views
 
+# Reminders
+from application.reminders import models
+from application.reminders import views
+
 # Users
 from application.auth import models
 from application.auth import views

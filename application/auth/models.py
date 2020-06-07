@@ -37,13 +37,13 @@ class User(Base):
 
     @staticmethod
     def users_with_contracts_count():
-        stmt = text("SELECT Account.id, Account.username, Account.name, COUNT(Contract.id) FROM Account"
+        stmt = text("SELECT Account.id, Account.username, Account.name, Account.user_role, COUNT(Contract.id) FROM Account"
                     " LEFT JOIN Contract ON Contract.account_id = Account.id"
                     " GROUP BY Account.id")
         res = db.engine.execute(stmt)
 
         response = []
         for row in res:
-            response.append({"id":row[0], "username":row[1], "name":row[2], "contracts_count":row[3]})
+            response.append({"id":row[0], "username":row[1], "name":row[2], "user_role":row[3], "contracts_count":row[4]})
 
         return response

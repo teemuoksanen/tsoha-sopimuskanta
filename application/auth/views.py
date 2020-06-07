@@ -33,7 +33,7 @@ def users_new():
 @app.route("/users/edit/<int:user_id>/", methods=["GET"])
 @login_required(role="ANY")
 def users_edit_form(user_id):
-    user = User.query.get(user_id)
+    user = User.query.get_or_404(user_id)
     form = UserEditForm(obj=user)
     form_pw = PasswordEditForm(obj=user)
     return render_template("auth/edit.html", form = form, form_pw = form_pw, user = user, updated = "none")
@@ -41,7 +41,7 @@ def users_edit_form(user_id):
 @app.route("/users/edit/<int:user_id>/", methods=["POST"])
 @login_required(role="ANY")
 def users_edit(user_id):
-    user = User.query.get(user_id)
+    user = User.query.get_or_404(user_id)
     form = UserEditForm(request.form)
     form_pw = PasswordEditForm(obj=user)
 
@@ -60,7 +60,7 @@ def users_edit(user_id):
 @app.route("/users/edit/<int:user_id>/password/", methods=["POST"])
 @login_required(role="ANY")
 def users_edit_pw(user_id):
-    user = User.query.get(user_id)
+    user = User.query.get_or_404(user_id)
     form = UserEditForm(obj=user)
     form_pw = PasswordEditForm(request.form)
 
