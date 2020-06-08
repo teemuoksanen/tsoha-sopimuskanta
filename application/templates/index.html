@@ -8,17 +8,22 @@
     </div>
   </div>
 
-  {% if current_user.is_authenticated %}
-  <div class="alert alert-danger" role="alert">
-    <h4 class="alert-heading">Toimenpiteitä vaativat muistutuksesi</h4>
-    <p>[TÄHÄN TULEE KÄYTTÄJÄN AKTIIVISET MUISTUTUKSET]</p>
-  </div>
-  <div class="alert alert-success" role="alert">
-    Sinulla ei ole toimenpiteitä tarvitsevia muistutuksia. Tarkista <a href="#" class="alert-link">kaikki muistutuksesi</a>.
-  </div>
-  {% else %}
+  {% if not current_user.is_authenticated %}
   <div class="alert alert-info" role="alert">
     Jotta voisit käyttää sopimuskannan kaikkia ominaisuuksia, sinun on ensin <a href="{{ url_for('auth_login') }}" class="alert-link">kirjauduttava sisään</a>.
+  </div>
+  {% elif not active_reminders %}
+  <div class="alert alert-success" role="alert">
+    Sinulla ei ole toimenpiteitä vaativia muistutuksia. Tarkista <a href="{{ url_for('reminders_index') }}" class="alert-link">kaikki muistutuksesi</a>.
+  </div>
+  {% else %}
+  <div class="alert alert-danger" role="alert">
+    <h4 class="alert-heading">Toimenpiteitä vaativat muistutuksesi</h4>
+    <ul>
+      {% for reminder in active_reminders %}
+      <li>{{ reminder.note }}</li>
+      {% endfor %}
+    </ul>
   </div>
   {% endif %}
 
