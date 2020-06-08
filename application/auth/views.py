@@ -3,15 +3,16 @@ from flask_login import login_user, logout_user, current_user
 
 from application import app, db, bcrypt, login_required
 from application.auth.models import User
-from application.auth.forms import LoginForm, UserForm, UserEditForm, PasswordEditForm
+from application.auth.forms import LoginForm, UserForm, UserEditForm, UserOwnSettingsForm, PasswordEditForm
 
 @app.route("/users/", methods=["GET"])
-@login_required(role="ANY")
+@login_required(role="ADMIN")
 def users_index():
     users = User.users_with_contracts_count()
     return render_template("auth/list.html", users = users)
 
 @app.route("/users/", methods=["POST"])
+@login_required(role="ADMIN")
 def users_create():
     form = UserForm(request.form)
 
@@ -27,11 +28,12 @@ def users_create():
     return redirect(url_for("users_index"))
 
 @app.route("/users/new/")
+@login_required(role="ADMIN")
 def users_new():
     return render_template("auth/new.html", form = UserForm())
 
 @app.route("/users/edit/<int:user_id>/", methods=["GET"])
-@login_required(role="ANY")
+@login_required(role="ADMIN")
 def users_edit_form(user_id):
     user = User.query.get_or_404(user_id)
     form = UserEditForm(obj=user)
@@ -39,7 +41,7 @@ def users_edit_form(user_id):
     return render_template("auth/edit.html", form = form, form_pw = form_pw, user = user, updated = "none")
 
 @app.route("/users/edit/<int:user_id>/", methods=["POST"])
-@login_required(role="ANY")
+@login_required(role="ADMIN")
 def users_edit(user_id):
     user = User.query.get_or_404(user_id)
     form = UserEditForm(request.form)
@@ -58,7 +60,7 @@ def users_edit(user_id):
     return render_template("auth/edit.html", form = form, form_pw = form_pw, user = user, updated = "user")
 
 @app.route("/users/edit/<int:user_id>/password/", methods=["POST"])
-@login_required(role="ANY")
+@login_required(role="ADMIN")
 def users_edit_pw(user_id):
     user = User.query.get_or_404(user_id)
     form = UserEditForm(obj=user)
@@ -74,6 +76,50 @@ def users_edit_pw(user_id):
     db.session().commit()
 
     return render_template("auth/edit.html", form = form, form_pw = form_pw, user = user, updated = "pw")
+
+@app.route("/settings/", methods=["GET"])
+@login_required(role="ANY")
+def own_settings_form():
+    user = current_user
+    form = UserOwnSettingsForm(obj=user)
+    form_pw = PasswordEditForm(obj=user)
+    return render_template("auth/ownsettings.html", form = form, form_pw = form_pw, updated = "none")
+
+@app.route("/settings/", methods=["POST"])
+@login_required(role="ANY")
+def own_settings():
+    user = current_user
+    form = UserOwnSettingsForm(request.form)
+    form_pw = PasswordEditForm(obj=user)
+
+    if not form.validate():
+        return render_template("auth/ownsettings.html", form = form, form_pw = form_pw, updated = "none")
+
+    user.username = form.username.data
+    user.name = form.name.data
+
+    db.session().add(user)
+    db.session().commit()
+
+    return render_template("auth/ownsettings.html", form = form, form_pw = form_pw, updated = "user")
+
+@app.route("/settings/password/", methods=["POST"])
+@login_required(role="ANY")
+def own_settings_pw():
+    user = current_user
+    form = UserEditForm(obj=user)
+    form_pw = PasswordEditForm(request.form)
+
+    if not form_pw.validate():
+        return render_template("auth/ownsettings.html", form = form, form_pw = form_pw, updated = "none")
+
+    pw_hash = bcrypt.generate_password_hash(form_pw.password.data).decode('utf-8')
+    user.password = pw_hash
+
+    db.session().add(user)
+    db.session().commit()
+
+    return render_template("auth/ownsettings.html", form = form, form_pw = form_pw, updated = "pw")
 
 @app.route("/auth/login", methods = ["GET", "POST"])
 def auth_login():

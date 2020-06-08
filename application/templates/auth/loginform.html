@@ -4,31 +4,21 @@
 <h2>Kirjaudu sisään</h2>
 {% if error %}
 <div class="alert alert-danger" role="alert">{{ error }}</div>
+{% elif current_user.is_authenticated %}
+<div class="alert alert-warning" role="alert">Käyttäjätasosi ei riitä. Kirjaudu sisään ylläpitäjän tunnuksillasi käyttääksesi tätä toimintoa.</div>
+{% elif form.nextpage.data %}
+<div class="alert alert-info" role="alert">Sinun on kirjauduttava sisään käyttääksesi tätä toimintoa.</div>
 {% endif %}
 <form method="POST" action="{{ url_for('auth_login') }}">
   {{ form.nextpage }}
-  <table>
-    <tr>
-      <td>
-	    {{ form.username.label }}
-      </td>
-      <td>
-	    {{ form.username }}
-      </td>
-    </tr>
-    <tr>
-      <td>
-	    {{ form.password.label }}
-      </td>
-      <td>
-	    {{ form.password }}
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2">
-	    <input type="submit" value="Kirjaudu" />
-      </td>
-    </tr>
-  </table>
+  <div class="form-group col-4">
+    {{ form.username.label }}
+    {{ form.username(class_="form-control") }}
+  </div>
+  <div class="form-group col-4">
+    {{ form.password.label }}
+    {{ form.password(class_="form-control") }}
+  </div>
+  <button type="submit" class="btn btn-primary">Kirjaudu</button>
 </form>
 {% endblock %}

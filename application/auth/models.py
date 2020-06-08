@@ -33,7 +33,7 @@ class User(Base):
         return True
 
     def roles(self):
-        return self.user_role
+        return [self.user_role]
 
     @staticmethod
     def users_with_contracts_count():

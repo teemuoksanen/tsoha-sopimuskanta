@@ -8,15 +8,19 @@ Kullekin käyttäjälle voidaan antaa joko luku- taikka luku- ja kirjoitusoikeud
 
 Sovellus löytyy osoitteesta (https://tsoha-sopimuskanta.herokuapp.com/).
 
-Tunnukset testikäyttöä varten - voit myös luoda uuden käyttäjän:
+Ylläpitäjän oikeuksilla olevat tunnukset testikäyttöä varten:
 - Tunnus: __'testi'__
 - Salasana: __'salasana'__
 
-HUOM! Tällä hetkellä kaikki käyttäjät toimivat ylläpitäjän oikeuksilla ja voivat mm. muuttaa toisen käyttäjän tietoja. Tämä muutetaan myöhemmissä versioissa.
+Voit luoda uuden käyttäjän kirjautumalla ensin sisään yllä olevilla tunnuksilla.
 
 ## Dokumentaatio
 
 - [Käyttäjätarinat ja SQL-kyselyt](https://github.com/teemuoksanen/tsoha-sopimuskanta/blob/master/documentation/UserStories.md)
+
+- [Sovelluksen asennusohje](https://github.com/teemuoksanen/tsoha-sopimuskanta/blob/master/documentation/Installation.md)
+
+- [Sovelluksen käyttöohje](https://github.com/teemuoksanen/tsoha-sopimuskanta/blob/master/documentation/Manual.md)
 
 ## Alustava tietokantakaavio
 
