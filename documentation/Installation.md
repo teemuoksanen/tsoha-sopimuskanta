@@ -5,7 +5,7 @@
 
 1. Avaa tietokoneen komentorivi ja siirry kansioon, johon haluat asentaa sovelluksen. Hae sovelluksen koodi GitHubista komennolla `git clone https://github.com/teemuoksanen/tsoha-sopimuskanta.git`.
 
-*Vaihtoehtoisesti voit ladata tiedostot GitHub-repositoriosta (https://github.com/sonjaheikkinen/lintuhavainnot/archive/master.zip). Pura ladattu ZIP-paketti haluamaasi kansioon. Avaa sen jälkeen tietokoneen komentorivi.*
+*Vaihtoehtoisesti voit ladata tiedostot GitHub-repositoriosta [ZIP-pakettina](https://github.com/teemuoksanen/tsoha-sopimuskanta/archive/master.zip). Pura ladattu ZIP-paketti haluamaasi kansioon. Avaa sen jälkeen tietokoneen komentorivi.*
 
 2. Siirry kansioon komennolla *cd tsoha-sopimuskanta*. (Jos hait sovelluksen ZIP-pakettina, hakemiston nimi on todennäköisesti *tsoha-sopimuskanta-master*.)
 
