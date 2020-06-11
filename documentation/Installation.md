@@ -2,11 +2,12 @@
 
 ## Sovelluksen asennus paikallisesti omalle tietokoneelle
 
-1. Lataa sovelluksen tiedostot GitHub-repositoriosta (https://github.com/sonjaheikkinen/lintuhavainnot/archive/master.zip).
 
-2. Pura ladattu ZIP-paketti haluamaasi kansioon.
+1. Avaa tietokoneen komentorivi ja siirry kansioon, johon haluat asentaa sovelluksen. Hae sovelluksen koodi GitHubista komennolla `git clone https://github.com/teemuoksanen/tsoha-sopimuskanta.git`.
 
-3. Avaa tietokoneen komentorivi ja siirry kansioon, johon purit ZIP-paketin. Kansion nimi on oletuksena *tsoha-sopimuskanta-master*.
+*Vaihtoehtoisesti voit ladata tiedostot GitHub-repositoriosta (https://github.com/sonjaheikkinen/lintuhavainnot/archive/master.zip). Pura ladattu ZIP-paketti haluamaasi kansioon. Avaa sen jälkeen tietokoneen komentorivi.
+
+2. Siirry kansioon komennolla *cd tsoha-sopimuskanta*. (Jos hait sovelluksen ZIP-pakettina, hakemiston nimi on todennäköisesti *tsoha-sopimuskanta-master*.)
 
 4. Luo Python-virtuaaliympäristö kyseiseen kansioon komennolla `python3 -m venv venv`.
 ​

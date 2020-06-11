@@ -26,4 +26,6 @@ Voit luoda uuden käyttäjän kirjautumalla ensin sisään yllä olevilla tunnuk
 
 ![Tietokantakaavio](https://github.com/teemuoksanen/tsoha-sopimuskanta/blob/master/documentation/pics/tietokantakaavio.png)
 
-[Tietokantakaavio](https://github.com/teemuoksanen/tsoha-sopimuskanta/blob/master/documentation/pics/tietokantakaavio.png)
+- [Tietokantakaavio](https://github.com/teemuoksanen/tsoha-sopimuskanta/blob/master/documentation/pics/tietokantakaavio.png)
+
+- [Tekstimuotoinen tietokantakuvaus](https://github.com/teemuoksanen/tsoha-sopimuskanta/blob/master/documentation/DatabaseDescription.md)
