@@ -31,7 +31,9 @@ class Reminder(Base):
 
         response = []
         for row in res:
-            response.append({"id":row[0], "note":row[1], "date_remind":datetime.datetime.strptime(row[2], '%Y-%m-%d').date(), "done":row[3], "contract_id":row[4], "contract_name":row[5], "account_id":row[6], "account_username":row[7], "account_name":row[8]})
+            if isinstance(row[2], str):
+                row[2] = datetime.datetime.strptime(row[2], '%Y-%m-%d').date()
+            response.append({"id":row[0], "note":row[1], "date_remind":row[2], "done":row[3], "contract_id":row[4], "contract_name":row[5], "account_id":row[6], "account_username":row[7], "account_name":row[8]})
 
         return response
 
