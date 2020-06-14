@@ -69,7 +69,7 @@
       {% endif %}
     </div>
     <div class="form-group col-md-4">
-      {{ form.date_expiry.label }} *
+      {{ form.date_expiry.label }}
       {% if form.date_expiry.errors %}
       {{ form.date_expiry(class_="form-control is-invalid") }}
       <div class="invalid-feedback">
@@ -85,6 +85,35 @@
       {% endif %}
     </div>
   </div>
+
+  {% if current_user.user_role == "ADMIN" %}
+  <div class="form-group">
+    {{ form.account_id.label }} *
+    <select class="selectpicker show-tick form-control" data-live-search="true" id="account_id" name="account_id" required title="Valitse käyttäjä...">
+      {% for value in form.account_id.choices %}
+      {% if form.account_id.data == value.0 %}
+      <option selected value="{{ value.0 }}">{{ value.1 }}</option>
+      {% else %}
+      <option value="{{ value.0 }}">{{ value.1 }}</option>
+      {% endif %}
+      {% endfor %}
+    </select>
+    {% if form.account_id.errors %}
+    <div class="invalid-feedback">
+      {% for error in form.account_id.errors %}
+      {{ error }}
+      {% endfor %}
+    </div>
+    {% else %}
+      {% if form.account_id.description %}
+      <small class="form-text text-muted">{{ form.account_id.description }}</small>
+      {% endif %}
+    {% endif %}
+  </div>
+  {% else %}
+  <input type="hidden" name="account_id" id="account_id" value="{{ current_user.id }}" />
+  {% endif %}
+
   {% if action == "edit" %}
   <div class="alert alert-info" role="alert">
     Sopimuksen osapuolia voit muokata <a href="/contracts/{{ contract_id }}/" class="alert-link">sopimuksen tietosivulta</a>.

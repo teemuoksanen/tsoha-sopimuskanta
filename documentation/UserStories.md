@@ -93,6 +93,17 @@ SELECT Party.id, Party.name FROM Party
     WHERE ContractParty.contract_id IS ?;
 ```
 
+### 2d. Sopimuksiin tehtävät haut
+
+SQL-kyselyllä voi hakea sopimuksia nimeen kohdistuvan hakusanan perusteella. Lisäksi on mahdollista suodattaa vain tietyn käyttäjän omistamat sopimukset sekä vain voimassa olevat sopimukset. Jos haku halutaan kohdistaa kaikkiin sopimuksiin, voi jälkimmäiset AND-rivit siis jättää pois.
+
+```
+SELECT * FROM Contract
+    WHERE upper(name) LIKE ?
+    AND account_id = ?
+    AND date_entry <= ? AND (date_expiry IS NULL OR date_expiry >= ?);
+```
+
 ## 3. Osapuolet
 
 ### 3a. Osapuoleen liittyvien sopimusten listaaminen

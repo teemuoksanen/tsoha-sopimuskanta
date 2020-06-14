@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
   
 {% block body %}
-<h2>Sopimus: <em>{{ contract.name }}</em></h2>
+<h2>Sopimus: <em>{{ contract.name }}</em> <a href="{{ url_for('contracts_index') }}" class="btn btn-secondary ml-3" role="button">&laquo; Listaa sopimukset</a></h2>
 
 {% if addPartyError == 1 %}
 <div class="alert alert-danger" role="alert">
@@ -20,12 +20,16 @@
           {% if party.bankrupt %}
           <li class="list-group-item list-group-item-danger d-flex flex-row">
             <div class="p-2"><strong><a href="{{ url_for('parties_view', party_id=party.id) }}">{{ party.name }}</a></strong> (konkurssissa)</div>
+            {% if contract.account_id == current_user.id or current_user.user_role == "ADMIN" %}
             <div class="p-2 ml-auto"><a href="{{ url_for('contracts_removeparty', contract_id=contract.id, party_id=party.id) }}">poista</a></div>
+            {% endif %}
           </li>
           {% else %}
           <li class="list-group-item list-group-item d-flex">
             <div class="p-2"><strong><a href="{{ url_for('parties_view', party_id=party.id) }}">{{ party.name }}</a></strong></div>
+            {% if contract.account_id == current_user.id or current_user.user_role == "ADMIN" %}
             <div class="p-2 ml-auto"><a href="{{ url_for('contracts_removeparty', contract_id=contract.id, party_id=party.id) }}">poista</a></div>
+            {% endif %}
           </li>
           {% endif %}
         {% endfor %}
@@ -35,9 +39,11 @@
         Sopimuksella ei ole vielä osapuolia
       </div>
       {% endif %}
+      {% if contract.account_id == current_user.id or current_user.user_role == "ADMIN" %}
       <div class="card-body text-center">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addParty">Lisää osapuoli sopimukselle</button>
       </div>
+      {% endif %}
     </div>
   </div>
 
@@ -68,14 +74,17 @@
       <h5 class="card-header">Toiminnot</h5>
       <div class="card-body text-center">
         <p><a href="{{ url_for('reminders_new_for_contract', contract_id=contract.id) }}" class="btn btn-primary">Lisää muistutus</a></p>
+        {% if contract.account_id == current_user.id or current_user.user_role == "ADMIN" %}
         <p><a href="{{ url_for('contracts_edit_form', contract_id=contract.id) }}" class="btn btn-primary">Muokkaa sopimusta</a></p>
         <p><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteContract">Poista sopimus</button></p>
+        {% endif %}
       </div>
     </div>  
   </div>
 
 </div>
 
+{% if contract.account_id == current_user.id or current_user.user_role == "ADMIN" %}
 <!-- Add Party to Contract -->
 <div class="modal fade" id="addParty" tabindex="-1" role="dialog" aria-labelledby="addPartyTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -133,5 +142,6 @@
     </div>
   </div>
 </div>
+{% endif %}
 
 {% endblock %}

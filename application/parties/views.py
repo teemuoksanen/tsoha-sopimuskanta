@@ -3,13 +3,25 @@ from flask import redirect, render_template, request, url_for
 from flask_login import current_user
 
 from application.parties.models import Party
-from application.parties.forms import PartyForm
+from application.parties.forms import PartyForm, PartySearch
 
 @app.route("/parties/", methods=["GET"])
+@login_required(role="ANY")
 def parties_index():
-    return render_template("parties/list.html", parties = Party.query.all())
+    return render_template("parties/list.html", parties = Party.query.all(), form = PartySearch())
 
 @app.route("/parties/", methods=["POST"])
+@login_required(role="ANY")
+def parties_search():
+    form = PartySearch(request.form)
+    form.search.data = form.search.data.strip()
+    
+    if not form.validate():
+        return render_template("parties/list.html", parties = Party.query.all(), form = form)
+    
+    return render_template("parties/list.html", parties = Party.query.filter(Party.name.like("%"+form.search.data+"%")), form = form)
+
+@app.route("/parties/new/", methods=["POST"])
 @login_required(role="ANY")
 def parties_create():
     form = PartyForm(request.form)
@@ -29,7 +41,7 @@ def parties_create():
   
     return redirect(url_for("parties_index"))
 
-@app.route("/parties/new/")
+@app.route("/parties/new/", methods=["GET"])
 @login_required(role="ANY")
 def parties_new():
     form = PartyForm()

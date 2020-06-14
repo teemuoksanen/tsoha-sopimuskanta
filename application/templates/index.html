@@ -19,11 +19,23 @@
   {% else %}
   <div class="alert alert-danger" role="alert">
     <h4 class="alert-heading">Toimenpiteitä vaativat muistutuksesi</h4>
-    <ul>
+    <table class="table table-striped">
       {% for reminder in active_reminders %}
-      <li>{{ reminder.note }}</li>
+      <tr>
+        <td class="align-middle col-lg">
+          <div><strong><a href="{{ url_for('contracts_view', contract_id=reminder.contract_id) }}">{{ reminder.contract_name|truncate(25,true) }}</a></strong></div>
+          <div>{{ reminder.note }}</div>
+        </td>
+        <td class="align-middle">{{ reminder.date_remind.strftime("%-d.%-m.%Y") }}</td>
+        <td class="text-center align-middle">
+          <form method="POST" action="{{ url_for('reminders_set_done', reminder_id=reminder.id) }}">
+            <input type="hidden" name="origin" value="index" />
+            <button type="submit" class="btn btn-primary">Merkitse tehdyksi</button>
+          </form>
+        </td>
+      </tr>
       {% endfor %}
-    </ul>
+    </table>
   </div>
   {% endif %}
 

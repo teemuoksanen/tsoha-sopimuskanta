@@ -14,7 +14,7 @@ class UserForm(FlaskForm):
     username = StringField("Käyttäjätunnus", [validators.Length(min=1, max=144, message="Käyttäjätunnuksen on oltava %(min)d-%(max)d merkkiä pitkä")])
     password = PasswordField("Salasana", [validators.Length(min=8, max=144, message="Salasanan on oltava %(min)d-%(max)d merkkiä pitkä"), validators.EqualTo("confirmPassword", message="Salasanojen on täsmättävä")])
     confirmPassword = PasswordField("Salasana uudelleen")
-    user_role = SelectField(choices=[('NORMAL', 'Käyttäjä'), ('ADMIN', 'Ylläpitäjä')])
+    user_role = SelectField("Käyttäjätyyppi", choices=[('NORMAL', 'Käyttäjä'), ('ADMIN', 'Ylläpitäjä')])
   
     class Meta:
         csrf = False
@@ -22,7 +22,7 @@ class UserForm(FlaskForm):
 class UserEditForm(FlaskForm):
     name = StringField("Nimi", [validators.Length(min=1, max=144, message="Nimen on oltava %(min)d-%(max)d merkkiä pitkä")])
     username = StringField("Käyttäjätunnus", [validators.Length(min=1, max=144, message="Käyttäjätunnuksen on oltava %(min)d-%(max)d merkkiä pitkä")])
-    user_role = SelectField(choices=[('NORMAL', 'Käyttäjä'), ('ADMIN', 'Ylläpitäjä')])
+    user_role = SelectField("Käyttäjätyyppi", choices=[('NORMAL', 'Käyttäjä'), ('ADMIN', 'Ylläpitäjä')])
   
     class Meta:
         csrf = False

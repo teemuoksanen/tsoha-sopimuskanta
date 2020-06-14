@@ -1,47 +1,93 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <h2>Muistutukset <a href="{{ url_for('reminders_new') }}" class="btn btn-secondary ml-3" role="button">Uusi &raquo;</a></h2>
+  <h2>Muistutukset
+    <a href="{{ url_for('reminders_new') }}" class="btn btn-secondary ml-3" role="button">Uusi &raquo;</a>
+    {% if all %}
+    <a href="{{ url_for('reminders_index') }}" class="btn btn-warning ml-3" role="button">Näytä vain omat muistutukset</a>
+    {% elif current_user.user_role == "ADMIN" %}
+    <a href="{{ url_for('reminders_all') }}" class="btn btn-warning ml-3" role="button">Näytä kaikkien käyttäjien muistutukset</a>
+    {% endif %}
+  </h2>
 
-  <table class="table table-striped">
+  <table class="table table-striped" data-toggle="table" data-pagination="true" data-locale="fi-FI">
     <thead>
       <tr>
         <th scope="col">Muistutus</th>
+        {% if all %}
         <th scope="col">Käyttäjä</th>
+        {% endif %}
         <th scope="col">Päivä</th>
         <th scope="col">Tehty</th>
         <th scope="col"></th>
-        <th scope="col"></th>
       </tr>
     </thead>
-    {% for reminder in reminders|sort(attribute='date_remind') %}
+    {% for reminder in undone_reminders|sort(attribute='date_remind') %}
     <tr>
-      <td class="align-middle">
+      <td class="align-middle col-lg">
         <div><strong><a href="{{ url_for('contracts_view', contract_id=reminder.contract_id) }}">{{ reminder.contract_name|truncate(25,true) }}</a></strong></div>
         <div>{{ reminder.note }}</div>
       </td>
+      {% if all %}
       <td class="align-middle">{{ reminder.account_username }}</td>
-      <td class="align-middle">{{ reminder.date_remind }}</td>
-      <td class="align-middle">
-        {% if reminder.done %}
-        X
-        {% endif %}
-      </td>
-      <td class="align-middle">
-        {% if reminder.done %}
-        <form method="POST" action="{{ url_for('reminders_unset_done', reminder_id=reminder.id) }}">
-          <button type="submit" class="btn btn-warning">Nollaa</button>
-        </form>
-        {% else %}
+      {% endif %}
+      <td class="align-middle">{{ reminder.date_remind.strftime("%-d.%-m.%Y") }}</td>
+      <td class="text-center align-middle">
         <form method="POST" action="{{ url_for('reminders_set_done', reminder_id=reminder.id) }}">
-          <button type="submit" class="btn btn-warning">Tehty</button>
+          <input type="hidden" name="origin" value="{{ all }}" />
+          <button type="submit" class="btn"><img src="/static/pics/unchecked_black.png" alt="Tehty - klikkaa merkitäksesi tekemättömäksi" style="height: 2em" /></button>
         </form>
-        {% endif %}
       </td>
-      <td class="align-middle">
-        <a href="{{ url_for('reminders_edit_form', reminder_id = reminder.id) }}" class="btn btn-primary">Muokkaa</a>
+      <td class="align-middle col-sm">
+        <a href="{{ url_for('reminders_edit_form', reminder_id = reminder.id) }}"><img src="/static/pics/edit_black.png" alt="Muokkaa" style="height: 1.5em" /></a>
       </td>
     </tr>
     {% endfor %}
   </table>
+
+  <div class="card mt-3">
+    <h5 class="card-header">
+      <a class="collapsed d-block" data-toggle="collapse" href="#collapse-collapsed" aria-expanded="true" aria-controls="collapse-collapsed" id="heading-collapsed">
+        Tehdyt muistutukset
+      </a>
+    </h5>
+    <div id="collapse-collapsed" class="collapse" aria-labelledby="heading-collapsed">
+      <div class="card-body">
+        <table class="table table-striped" data-toggle="table" data-pagination="true" data-locale="fi-FI">
+          <thead>
+            <tr>
+              <th scope="col">Muistutus</th>
+              {% if all %}
+              <th scope="col">Käyttäjä</th>
+              {% endif %}
+              <th scope="col">Päivä</th>
+              <th scope="col">Tehty</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          {% for reminder in done_reminders|sort(attribute='date_remind') %}
+          <tr>
+            <td class="align-middle col-lg">
+              <div><strong><a href="{{ url_for('contracts_view', contract_id=reminder.contract_id) }}">{{ reminder.contract_name|truncate(30,true) }}</a></strong></div>
+              <div>{{ reminder.note }}</div>
+            </td>
+            {% if all %}
+            <td class="align-middle">{{ reminder.account_username }}</td>
+            {% endif %}
+            <td class="align-middle">{{ reminder.date_remind.strftime("%-d.%-m.%Y") }}</td>
+            <td class="text-center align-middle">
+              <form method="POST" action="{{ url_for('reminders_unset_done', reminder_id=reminder.id) }}">
+                <input type="hidden" name="origin" value="{{ all }}" />
+                <button type="submit" class="btn"><img src="/static/pics/check_black.png" alt="Tehty - klikkaa merkitäksesi tekemättömäksi" style="height: 2em" /></button>
+              </form>
+            </td>
+            <td class="align-middle col-sm">
+              <a href="{{ url_for('reminders_edit_form', reminder_id = reminder.id) }}"><img src="/static/pics/edit_black.png" alt="Muokkaa" style="height: 1.5em" /></a>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </div>      
+  </div>
 {% endblock %}

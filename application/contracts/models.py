@@ -1,7 +1,10 @@
 from application import db
 from application.models import Base
+from flask_login import current_user
+import datetime
 
 from sqlalchemy.sql import text
+from datetime import date
 
 contractparties = db.Table('contractparty',
     db.Column('contract_id', db.Integer, db.ForeignKey('contract.id'), primary_key=True),
@@ -36,5 +39,38 @@ class Contract(Base):
         res = db.engine.execute(stmt)
 
         response = [(party.id, party.name) for party in res]
+
+        return response
+
+    @staticmethod
+    def search(search, onlyOwn, onlyValid):
+        stmt = "SELECT id, name, date_signed, date_entry, date_expiry FROM Contract"
+
+        if search != "":
+            stmt = stmt + " WHERE upper(name) LIKE :search"
+        
+        if onlyOwn == True:
+            if "WHERE" in stmt:
+                stmt = stmt + " AND "
+            else:
+                stmt = stmt + " WHERE "
+            stmt = stmt + "account_id = :account_id"
+        
+        if onlyValid == True:
+            if "WHERE" in stmt:
+                stmt = stmt + " AND "
+            else:
+                stmt = stmt + " WHERE "
+            stmt = stmt + "date_entry <= :today AND (date_expiry IS NULL OR date_expiry >= :today)"
+
+        stmt = text(stmt).params(search = "%" + search.upper() + "%", account_id = current_user.id, today = date.today())
+        res = db.engine.execute(stmt)
+
+        response = []
+        for row in res:
+            if row[4] == None:
+                response.append({"id":row[0], "name":row[1], "date_signed":datetime.datetime.strptime(row[2], '%Y-%m-%d').date(), "date_entry":datetime.datetime.strptime(row[3], '%Y-%m-%d').date(), "date_expiry":None})
+            else:
+                response.append({"id":row[0], "name":row[1], "date_signed":datetime.datetime.strptime(row[2], '%Y-%m-%d').date(), "date_entry":datetime.datetime.strptime(row[3], '%Y-%m-%d').date(), "date_expiry":datetime.datetime.strptime(row[4], '%Y-%m-%d').date()})
 
         return response

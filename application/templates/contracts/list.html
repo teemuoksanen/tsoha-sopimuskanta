@@ -3,20 +3,71 @@
 {% block body %}
   <h2>Sopimukset <a href="{{ url_for('contracts_new') }}" class="btn btn-secondary ml-3" role="button">Uusi &raquo;</a></h2>
 
-  <table class="table table-striped">
+  {% if form.errors %}
+  <div class="alert alert-danger" role="alert">
+    <p><strong>Haku ei onnistunut!</strong></p>
+    <p>Tarkista punaisella merkittyjen kenttien tiedot ja yritä uudelleen.</p>
+  </div>
+  {% endif %}
+
+  <div class="card mb-3">
+    <h5 class="card-header">
+      <a class="collapsed d-block" data-toggle="collapse" href="#collapse-collapsed" aria-expanded="true" aria-controls="collapse-collapsed" id="heading-collapsed">
+        Hae ja suodata sopimuksia
+      </a>
+    </h5>
+    <div id="collapse-collapsed" class="collapse" aria-labelledby="heading-collapsed">
+      <div class="card-body">
+        <form method="POST" action="{{ url_for('contracts_search') }}" class="needs-validation"> 
+          <div class="form-group">
+            {{ form.search.label }}
+            {% if form.search.errors %}
+            {{ form.search(class_="form-control is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.search.errors %}
+              {{ error }}
+              {% endfor %}
+            </div>
+            {% else %}
+            {{ form.search(class_="form-control") }}
+              {% if form.search.description %}
+              <small class="form-text text-muted">{{ form.search.description }}</small>
+              {% endif %}
+            {% endif %}
+          </div>
+          <div class="form-group">
+            <div class="form-check form-check-inline">
+              {{ form.onlyOwn(class_="form-check-input") }} {{ form.onlyOwn.label(class_="form-check-label") }}
+            </div>
+            <div class="form-check form-check-inline">
+                {{ form.onlyValid(class_="form-check-input") }} {{ form.onlyValid.label(class_="form-check-label") }}
+            </div>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary mr-1">Hae sopimukset</button>
+            <a href="{{ url_for('contracts_index') }}" class="btn btn-secondary mr-1">Nollaa suodattimet</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <table class="table table-striped" data-toggle="table" data-pagination="true" data-locale="fi-FI">
     <thead>
       <tr>
         <th scope="col">Sopimuksen nimi</th>
         <th scope="col">Allekirjoitettu</th>
-        <th scope="col"></th>
+        <th scope="col">Voimassa</th>
       </tr>
     </thead>
     {% for contract in contracts|sort(attribute='date_signed') %}
     <tr>
-      <td class="align-middle">{{ contract.name }}</td>
-      <td class="align-middle">{{ contract.date_signed.strftime("%-d.%-m.%Y") }}</td>
-      <td class="align-middle">
-        <a href="{{ url_for('contracts_view', contract_id=contract.id) }}" class="btn btn-primary">Näytä sopimuksen tiedot</a>
+      <td class="align-middle col-lg-3"><strong><a href="{{ url_for('contracts_view', contract_id=contract.id) }}">{{ contract.name }}</a></strong></td>
+      <td class="align-middle col-md-3">{{ contract.date_signed.strftime("%-d.%-m.%Y") }}</td>
+      <td class="text-center align-middle col-sm-3">
+        {% if (contract.date_entry <= today) and (contract.date_expiry == None or contract.date_expiry >= today) %}
+        <img src="/static/pics/check_black.png" alt="Sopimus on voimasssa" style="height: 1.5em" />
+        {% endif %}
       </td>
     </tr>
     {% endfor %}

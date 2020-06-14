@@ -10,3 +10,9 @@ class PartyForm(FlaskForm):
  
     class Meta:
         csrf = False
+
+class PartySearch(FlaskForm):
+    search = StringField("Hakusana:", [validators.Length(max=144, message="Hakusana voi olla enintään %(max)d merkkiä pitkä.")], description="Haku kohdistuu osapuolen nimeen.")
+
+    class Meta:
+        csrf = False
