@@ -87,3 +87,10 @@ class Reminder(Base):
             response.append({"id":row[0], "note":row[1], "date_remind":Base.correct_date_format(row[2]), "done":row[3], "contract_id":row[4], "contract_name":row[5]})
 
         return response
+
+    @staticmethod
+    def create_bankruptcy_reminders(party):
+        bankruptcy_reminders = []
+        for contract in party.contracts:
+            bankruptcy_reminders.append({"note":party.name + " on asetettu konkurssiin. Tarkista mahdolliset toimenpiteet (esim. irtisano sopimus).", "date_remind":date.today(), "done":False, "contract_id":contract.id, "account_id":contract.account_id})
+        db.engine.execute(Reminder.__table__.insert(), bankruptcy_reminders)

@@ -27,7 +27,7 @@ Käyttäjätarinoiden (_user story_) perässä oleva numero viittaa dokumentin l
 
 ## Yleisiä käyttötapauksia
 - [ ] Jos sopimukselle lisätään päättymispäivä, sopimuksen omistajalle lisätään muistutus. _(1a)_
-- [ ] Jos osapuoli asetetaan konkurssiin, kaikille osapuolten sopimusten omistajille lisätään muistutus. _(1a)_
+- [x] Jos osapuoli asetetaan konkurssiin, kaikille osapuolten sopimusten omistajille lisätään muistutus. _(4d)_
 
 # SQL-kyselyt
 
@@ -152,6 +152,19 @@ Tämän toiminnon avulla kirjautuneen käyttäjän etusivulle tuodaan sellaiset 
 SELECT Reminder.id, Reminder.note, Reminder.date_remind, Reminder.done, Contract.id, Contract.name FROM Reminder
     JOIN Contract ON Reminder.contract_id = Contract.id
     WHERE Reminder.account_id = ? AND Reminder.done = FALSE AND Reminder.date_remind <= ?;
+```
+
+### 4d. Muistutuksen lisääminen kaikille käyttäjille, joiden sopimuksiin liitetty osapuoli on asetettu konkurssiin
+
+Kun osapuoli asetetaan konkurssiin, sovellus lisää muistutuksen kaikille niille käyttäjille, joiden sopimuksiin kyseinen osapuoli on liitetty. Käytännössä _create_bankruptcy_reminders_ saa syötteenä kyseisen osapuolen tiedot mukaan lukien sen sopimuslistan. Syötettäviä rivejä tulee siis niin monta kuin kyseisen osapuolen sopimuslistassa on sopimuksia.
+
+```
+INSERT INTO Reminder
+    (note, date_remind, done, contract_id, account_id)
+    VALUES
+    (?, ?, FALSE, ?, ?),
+    (?, ?, FALSE, ?, ?),
+    (?, ?, FALSE, ?, ?);
 ```
 
 ## 5. Käyttäjät

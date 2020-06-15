@@ -76,9 +76,9 @@ Valitse yläpalkista _Osapuolet_ --> _Lisää uusi osapuoli_ taikka suoraan etus
 
 ### Osapuolen asettaminen konkurssiin ja konkurssitiedon peruuttaminen
 
-Avaa osapuolen tietosivu esimerkiksi osapuolilistasta. Valitse _Toiminnot_-laatikosta _Aseta konkurssiin_. Konkurssitieto näytetään punaisella varoitusvärillä ja _"Konkurssissa"_-merkinnällä niissä yhteyksissä, missä osapuoleen viitataan.
+Avaa osapuolen tietosivu esimerkiksi osapuolilistasta. Valitse _Toiminnot_-laatikosta _Aseta konkurssiin_. Konkurssitieto näytetään punaisella varoitusvärillä ja _"Konkurssissa"_-merkinnällä niissä yhteyksissä, missä osapuoleen viitataan. Jokaiselle käyttäjälle, jonka sopimuksiin kyseinen osapuoli on liitetty, tehdään automaattisesti aktiivinen muistutus, jossa kehotetaan tarkistamaan mahdolliset toimenpiteet konkurssin takia.
 
-Voit myös poistaa konkurssitiedon osapuolen tietosivulta. Valitse _Toiminnot_-laatikosta _Poista konkurssitieto_.
+Voit myös poistaa konkurssitiedon osapuolen tietosivulta. Valitse _Toiminnot_-laatikosta _Poista konkurssitieto_. Aiemmin lisättyjä konkurssimuistutuksia ei tässä yhteydessä poisteta.
 
 ### Osapuolen tietojen muokkaaminen
 

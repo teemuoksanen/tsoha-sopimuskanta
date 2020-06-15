@@ -4,6 +4,7 @@ from flask_login import current_user
 
 from application.parties.models import Party
 from application.parties.forms import PartyForm, PartySearch
+from application.reminders.models import Reminder
 
 @app.route("/parties/", methods=["GET"])
 @login_required(role="ANY")
@@ -98,6 +99,8 @@ def parties_set_bankrupt(party_id):
     party = Party.query.get_or_404(party_id)
     party.bankrupt = True
     db.session().commit()
+
+    Reminder.create_bankruptcy_reminders(party = party)
 
     return redirect(url_for('parties_view', party_id=party.id))
 
