@@ -3,26 +3,26 @@
 Käyttäjätarinoiden (_user story_) perässä oleva numero viittaa dokumentin lopussa oleviin SQL-kyselyihin.
 
 ## Käyttäjänä voin...
-- ...listata kaikki sopimukset sekä osapuolet. _(1d)_
-- ...katsoa yksittäisen sopimuksen tietoja niin, että myös sopimukseen liitetyt osapuolet listataan. _(2c)_
-- ...katsoa yksittäisen osapuolten tietoja niin, että myös osapuoleen liitetyt sopimukset listataan. _(3a)_
-- ...lisätä uusia sopimuksia (jolloin minut merkitään sopimuksen omistajaksi), osapuolia sekä sopimuksiin liittyviä muistutuksia. _(1a)_
-- ...muokata omistamieni sopimusten tietoja tai poistaa kyseiset sopimukset. _(1b, 1c)_
-- ...muokata tai poistaa omia muistutuksiani. _(1b, 1c)_
-- ...muokata kaikkien osapuolten tietoja. _(1b)_
-- ...muokata omia tietojani ja vaihtaa salasanaani. _(1b)_
-- ...lisätä osapuolia niihin sopimuksiin, joiden omistaja olen. _(2a, 2b)_
+- [x] ...listata kaikki sopimukset sekä osapuolet. _(1d)_
+- [x] ...katsoa yksittäisen sopimuksen tietoja niin, että myös sopimukseen liitetyt osapuolet listataan. _(2c)_
+- [x] ...katsoa yksittäisen osapuolten tietoja niin, että myös osapuoleen liitetyt sopimukset listataan. _(3a)_
+- [x] ...lisätä uusia sopimuksia (jolloin minut merkitään sopimuksen omistajaksi), osapuolia sekä sopimuksiin liittyviä muistutuksia. _(1a)_
+- [x] ...muokata omistamieni sopimusten tietoja tai poistaa kyseiset sopimukset. _(1b, 1c)_
+- [x] ...muokata tai poistaa omia muistutuksiani. _(1b, 1c)_
+- [x] ...muokata kaikkien osapuolten tietoja. _(1b)_
+- [x] ...muokata omia tietojani ja vaihtaa salasanaani. _(1b)_
+- [x] ...lisätä osapuolia sopimuksiin. _(2a, 2b)_
 
 ## Ylläpitäjänä voin lisäksi...
-- ...luoda uusia käyttäjiä. _(1a)_
-- ...listata kaikki käyttäjät niin, että näen samalla, montako sopimusta kullakin käyttäjällä on. _(5a)_
-- ...poistaa minkä tahansa sopimuksen, osapuolen (jos osapuoli ei ole aktiivisena jollain sopimuksella), muistutuksen tai käyttäjän. _(1c)_
-- ...muokata mitä tahansa sopimusta, muistutusta tai käyttäjää. _(1b)_
-- ...lisätä muistutuksia kaikille käyttäjille. _(1a)_
+- [x] ...luoda uusia käyttäjiä. _(1a)_
+- [x] ...listata kaikki käyttäjät niin, että näen samalla, montako sopimusta kullakin käyttäjällä on. _(5a)_
+- [ ] ...poistaa minkä tahansa sopimuksen, osapuolen (jos osapuoli ei ole aktiivisena jollain sopimuksella), muistutuksen tai käyttäjän. _(1c)_
+- [x] ...muokata mitä tahansa sopimusta, muistutusta tai käyttäjää. _(1b)_
+- [x] ...lisätä muistutuksia kaikille käyttäjille. _(1a)_
 
 ## Yleisiä käyttötapauksia
-- Jos sopimukselle lisätään päättymispäivä, sopimuksen omistajalle lisätään muistutus. _(1a)_
-- Jos osapuoli asetetaan konkurssiin, kaikille osapuolten sopimusten omistajille lisätään muistutus. _(1a)_
+- [ ] Jos sopimukselle lisätään päättymispäivä, sopimuksen omistajalle lisätään muistutus. _(1a)_
+- [ ] Jos osapuoli asetetaan konkurssiin, kaikille osapuolten sopimusten omistajille lisätään muistutus. _(1a)_
 
 # SQL-kyselyt
 
