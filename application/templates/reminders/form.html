@@ -111,9 +111,36 @@
 {% if action == "edit" %}
   <button type="submit" class="btn btn-primary">Tallenna</button>
   <button type="reset" class="btn btn-secondary">Palauta muutokset</button>
+  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteReminder">Poista muistutus</button>
   {% else %}
   <button type="submit" class="btn btn-primary mr-1">Lisää</button>
   {% endif %}
 
 </form>
+
+{% if action == "edit" and (account_id == current_user.id or current_user.user_role == "ADMIN") %}
+<!-- Remove Reminder -->
+<div class="modal fade" id="deleteReminder" tabindex="-1" role="dialog" aria-labelledby="deleteReminderTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteReminderLongTitle">Poistetaanko muistutus?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Jos poistat muistutuksen, sitä ei voida enää palauttaa. Haluatko varmasti poistaa muistutuksen?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Peruuta</button>
+        <form method="POST" action="{{ url_for('reminders_delete', reminder_id=reminder_id) }}">
+          <button type="submit" class="btn btn-danger">Poista</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
 {% endblock %}
