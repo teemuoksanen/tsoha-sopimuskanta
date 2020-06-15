@@ -68,18 +68,6 @@ class Contract(Base):
 
         response = []
         for row in res:
-            # Fix type for dates in SQLite
-            if isinstance(row[2], str):
-                date_signed = datetime.datetime.strptime(row[2], '%Y-%m-%d').date()
-                date_entry = datetime.datetime.strptime(row[3], '%Y-%m-%d').date()
-                if row[4] == None:
-                    date_expiry = None
-                else:
-                    date_expiry = datetime.datetime.strptime(row[4], '%Y-%m-%d').date()
-            else:
-                date_signed = row[2]
-                date_entry = row[3]
-                date_expiry = row[4]
-            response.append({"id":row[0], "name":row[1], "date_signed":date_signed, "date_entry":date_entry, "date_expiry":date_expiry})
+            response.append({"id":row[0], "name":row[1], "date_signed":Base.correct_date_format(row[2]), "date_entry":Base.correct_date_format(row[3]), "date_expiry":Base.correct_date_format(row[4])})
 
         return response
