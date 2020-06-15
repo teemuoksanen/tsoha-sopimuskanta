@@ -51,15 +51,14 @@ class Reminder(Base):
 
     @staticmethod
     def active_reminders_for_user(account_id):
-        stmt = text("SELECT Reminder.id, Reminder.note, Reminder.date_remind, Reminder.done, Contract.id, Contract.name, Account.id FROM Reminder"
-                    " JOIN Account ON Reminder.account_id = Account.id"
+        stmt = text("SELECT Reminder.id, Reminder.note, Reminder.date_remind, Reminder.done, Contract.id, Contract.name FROM Reminder"
                     " JOIN Contract ON Reminder.contract_id = Contract.id"
-                    " WHERE (Account.id = :account_id AND Reminder.done = FALSE AND Reminder.date_remind <= :date)").params(account_id=account_id, date = date.today())
+                    " WHERE Reminder.account_id = :account_id AND Reminder.done = FALSE AND Reminder.date_remind <= :date").params(account_id=account_id, date = date.today())
         res = db.engine.execute(stmt)
 
         response = []
         for row in res:
-            response.append({"id":row[0], "note":row[1], "date_remind":Base.correct_date_format(row[2]), "done":row[3], "contract_id":row[4], "contract_name":row[5], "account_id":row[6]})
+            response.append({"id":row[0], "note":row[1], "date_remind":Base.correct_date_format(row[2]), "done":row[3], "contract_id":row[4], "contract_name":row[5]})
 
         return response
 
