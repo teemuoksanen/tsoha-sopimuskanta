@@ -2,6 +2,8 @@
 
 Sopimuskantaan voi tallentaa tietoja sopimuksista sekä niiden osapuolista. Sopimukseen voi liittää käyttäjäkohtaisia muistutuksia, jotka näkyvät asetettuna päivämääränä kyseiselle käyttäjälle sovelluksen etusivulla. Osa muistutuksista voidaan luoda automaattisesti (esim. umpeutuva sopimus, konkurssiin mennyt osapuoli).
 
+Sopimuskanta on harjoitustyöni Helsingin yliopiston tietojenkäsittelytieteen osaston Tietokantasovellus-kurssilla kesällä 2020.
+
 ## Sovellus Herokussa
 
 Sovellus löytyy osoitteesta (https://tsoha-sopimuskanta.herokuapp.com/).
