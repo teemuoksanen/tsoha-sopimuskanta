@@ -94,7 +94,7 @@ Kun poistat osapuolen, se poistetaan lopullisesti eikä sitä voi enää palautt
 
 ### Muistusten selaaminen ja kuittaaminen tehdyksi
 
-Etusivulla näet, mikäli sinulla on tekemättömiä muistutuksia, joiden määräpäivä on täynnä. Voit siirtyä muistutukseen liittyvään sopimukseen painamalla sopimuksen nimeä. Voit kuitata muistutuksen tehdyksi painamalla muistutuksen perässä olevaa laatikon kuvaa. Tehdyksi kuitattu muistutus poistuu automaattisesti etusivulta.
+Etusivulla näet, mikäli sinulla on tekemättömiä muistutuksia, joiden määräpäivä on täynnä. Voit siirtyä muistutukseen liittyvään sopimukseen painamalla sopimuksen nimeä. Voit kuitata muistutuksen tehdyksi painamalla _Merkitse tehdyksi_. Tehdyksi kuitattu muistutus poistuu automaattisesti etusivulta.
 
 Kaikki muistutuksesi näet valitsemalla yläpalkista _Muistutukset_ --> _Listaa muistutukset_ taikka suoraan etusivulta _Muistutuksiin_. Muistutuksesi on listattu sivulle niiden määräpäivän mukaisessa järjestyksessä - ylemmässä listauksessa on tekemättömät muistutukset. Halutessasi voit selata myös tehtyjä muistutuksiasi avaamalla _Tehdyt muistutukset_-ikkunan sen otsikkoa painamalla.
 
