@@ -4,6 +4,8 @@ Käyttäjätarinoiden (_user story_) perässä oleva numero viittaa dokumentin l
 
 ## Käyttäjänä voin...
 - [x] ...listata kaikki sopimukset sekä osapuolet. _(1d)_
+- [x] ...listata vain omat ja/tai voimassa olevat sopimukset. _(2d)_
+- [x] ...hakea yksittäistä sopimusta. _(2d)_
 - [x] ...katsoa yksittäisen sopimuksen tietoja niin, että myös sopimukseen liitetyt osapuolet listataan. _(2c)_
 - [x] ...katsoa yksittäisen osapuolten tietoja niin, että myös osapuoleen liitetyt sopimukset listataan. _(3a)_
 - [x] ...lisätä uusia sopimuksia (jolloin minut merkitään sopimuksen omistajaksi), osapuolia sekä sopimuksiin liittyviä muistutuksia. _(1a)_
@@ -12,12 +14,15 @@ Käyttäjätarinoiden (_user story_) perässä oleva numero viittaa dokumentin l
 - [x] ...muokata kaikkien osapuolten tietoja. _(1b)_
 - [x] ...muokata omia tietojani ja vaihtaa salasanaani. _(1b)_
 - [x] ...lisätä osapuolia sopimuksiin. _(2a, 2b)_
+- [x] ...listata kaikki omat muistutukseni. _(4b)_
+- [x] ...nähdä etusivulla toimenpiteitä vaativat muistutukseni. _(4c)_
 
 ## Ylläpitäjänä voin lisäksi...
 - [x] ...luoda uusia käyttäjiä. _(1a)_
 - [x] ...listata kaikki käyttäjät niin, että näen samalla, montako sopimusta kullakin käyttäjällä on. _(5a)_
-- [ ] ...poistaa minkä tahansa sopimuksen, osapuolen (jos osapuoli ei ole aktiivisena jollain sopimuksella), muistutuksen tai käyttäjän. _(1c)_
+- [x] ...poistaa minkä tahansa sopimuksen, osapuolen (jos osapuoli ei ole aktiivisena jollain sopimuksella) tai muistutuksen. _(1c)_
 - [x] ...muokata mitä tahansa sopimusta, muistutusta tai käyttäjää. _(1b)_
+- [x] ...listata kaikkien käyttäjien muistutukset. _(4a)_
 - [x] ...lisätä muistutuksia kaikille käyttäjille. _(1a)_
 
 ## Yleisiä käyttötapauksia
@@ -118,7 +123,36 @@ SELECT Contract.id, Contract.name FROM Contract
 
 ## 4. Muistutukset
 
-_osio kesken_
+### 4a. Kaikkien tekemättömien/tehtyjen muistutusten listaaminen
+
+Jos viimeisellä rivillä on _FALSE_, haetaan tekemättömät muistutukset. Jos viimeisellä tivillä on _TRUE_, haetaan tehdyt muistutukset.
+
+```
+SELECT Reminder.id, Reminder.note, Reminder.date_remind, Reminder.done, Contract.id, Contract.name, Account.id, Account.username, Account.name FROM Reminder
+    JOIN Account ON Reminder.account_id = Account.id
+    JOIN Contract ON Reminder.contract_id = Contract.id
+    WHERE Reminder.done = FALSE/TRUE;
+```
+
+### 4b. Yksittäisen käyttäjän tekemättömien/tehtyjen muistutusten listaaminen
+
+Jos viimeisellä rivillä on _FALSE_, haetaan tekemättömät muistutukset. Jos viimeisellä tivillä on _TRUE_, haetaan tehdyt muistutukset. Edelliseen kyselyyn verrattuna käyttäjän tietojen liittäminen ei ole tarpeellista, sillä sovelluksessa relevantin käyttäjän _account_id_ tiedetään _current_user_-muuttujan avulla.
+
+```
+SELECT Reminder.id, Reminder.note, Reminder.date_remind, Reminder.done, Contract.id, Contract.name FROM Reminder
+    JOIN Contract ON Reminder.contract_id = Contract.id
+    WHERE Reminder.account_id = :account_id AND Reminder.done = FALSE/TRUE;
+```
+
+### 4c. Käyttäjän sellaisten tekemättömien muistutusten listaaminen, joiden päivämäärä on täynnä
+
+Tämän toiminnon avulla kirjautuneen käyttäjän etusivulle tuodaan sellaiset muistutukset, joiden päivämäärä on täynnä ja joita ei vielä ole merkitty tekemättömäksi. Kyselylle annetaan syötteinä käyttäjän _account_id_ sekä nykyinen päivämäärä (_date.today()_).
+
+```
+SELECT Reminder.id, Reminder.note, Reminder.date_remind, Reminder.done, Contract.id, Contract.name FROM Reminder
+    JOIN Contract ON Reminder.contract_id = Contract.id
+    WHERE Reminder.account_id = ? AND Reminder.done = FALSE AND Reminder.date_remind <= ?;
+```
 
 ## 5. Käyttäjät
 
