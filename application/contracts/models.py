@@ -17,7 +17,6 @@ class Contract(Base):
     date_signed = db.Column(db.Date)
     date_entry = db.Column(db.Date)
     date_expiry = db.Column(db.Date)
-    notes = db.Column(db.String(250))
 
     parties = db.relationship('Party', secondary=contractparties, lazy='subquery',
         backref=db.backref('contracts', lazy='subquery'))

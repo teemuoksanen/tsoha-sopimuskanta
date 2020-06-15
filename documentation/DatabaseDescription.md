@@ -29,8 +29,6 @@ CREATE TABLE contract (
 	date_signed DATE, 
 	date_entry DATE, 
 	date_expiry DATE, 
-	value FLOAT, 
-	notes VARCHAR(250), 
 	account_id INTEGER NOT NULL, 
 	PRIMARY KEY (id), 
 	FOREIGN KEY(account_id) REFERENCES account (id)
