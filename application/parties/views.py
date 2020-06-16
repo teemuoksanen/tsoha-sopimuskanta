@@ -40,7 +40,7 @@ def parties_create():
     db.session().add(party)
     db.session().commit()
   
-    return redirect(url_for("parties_index"))
+    return redirect(url_for("parties_view", party_id = party.id))
 
 @app.route("/parties/new/", methods=["GET"])
 @login_required(role="ANY")

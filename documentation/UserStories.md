@@ -26,7 +26,7 @@ Käyttäjätarinoiden (_user story_) perässä oleva numero viittaa dokumentin l
 - [x] ...lisätä muistutuksia kaikille käyttäjille. _(1a)_
 
 ## Yleisiä käyttötapauksia
-- [ ] Jos sopimukselle lisätään päättymispäivä, sopimuksen omistajalle lisätään muistutus. _(1a)_
+- [x] Jos sopimukselle lisätään päättymispäivä, sopimuksen omistajalle lisätään muistutus. _(1a)_
 - [x] Jos osapuoli asetetaan konkurssiin, kaikille osapuolten sopimusten omistajille lisätään muistutus. _(4d)_
 
 # SQL-kyselyt
@@ -151,7 +151,8 @@ Tämän toiminnon avulla kirjautuneen käyttäjän etusivulle tuodaan sellaiset 
 ```
 SELECT Reminder.id, Reminder.note, Reminder.date_remind, Reminder.done, Contract.id, Contract.name FROM Reminder
     JOIN Contract ON Reminder.contract_id = Contract.id
-    WHERE Reminder.account_id = ? AND Reminder.done = FALSE AND Reminder.date_remind <= ?;
+    WHERE Reminder.account_id = ? AND Reminder.done = FALSE AND Reminder.date_remind <= ?
+    ORDER BY Reminder.date_remind ASC;
 ```
 
 ### 4d. Muistutuksen lisääminen kaikille käyttäjille, joiden sopimuksiin liitetty osapuoli on asetettu konkurssiin

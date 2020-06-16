@@ -50,19 +50,6 @@ class Reminder(Base):
         return response
 
     @staticmethod
-    def active_reminders_for_user(account_id):
-        stmt = text("SELECT Reminder.id, Reminder.note, Reminder.date_remind, Reminder.done, Contract.id, Contract.name FROM Reminder"
-                    " JOIN Contract ON Reminder.contract_id = Contract.id"
-                    " WHERE Reminder.account_id = :account_id AND Reminder.done = FALSE AND Reminder.date_remind <= :date").params(account_id=account_id, date = date.today())
-        res = db.engine.execute(stmt)
-
-        response = []
-        for row in res:
-            response.append({"id":row[0], "note":row[1], "date_remind":Base.correct_date_format(row[2]), "done":row[3], "contract_id":row[4], "contract_name":row[5]})
-
-        return response
-
-    @staticmethod
     def undone_reminders_for_user(account_id):
         stmt = text("SELECT Reminder.id, Reminder.note, Reminder.date_remind, Reminder.done, Contract.id, Contract.name FROM Reminder"
                     " JOIN Contract ON Reminder.contract_id = Contract.id"
@@ -89,8 +76,31 @@ class Reminder(Base):
         return response
 
     @staticmethod
+    def active_reminders_for_user(account_id):
+        stmt = text("SELECT Reminder.id, Reminder.note, Reminder.date_remind, Reminder.done, Contract.id, Contract.name FROM Reminder"
+                    " JOIN Contract ON Reminder.contract_id = Contract.id"
+                    " WHERE Reminder.account_id = :account_id AND Reminder.done = FALSE AND Reminder.date_remind <= :date"
+                    " ORDER BY Reminder.date_remind, Contract.id ASC").params(account_id=account_id, date = date.today())
+        res = db.engine.execute(stmt)
+
+        response = []
+        for row in res:
+            response.append({"id":row[0], "note":row[1], "date_remind":Base.correct_date_format(row[2]), "done":row[3], "contract_id":row[4], "contract_name":row[5]})
+
+        return response
+
+    @staticmethod
     def create_bankruptcy_reminders(party):
         bankruptcy_reminders = []
         for contract in party.contracts:
             bankruptcy_reminders.append({"note":party.name + " on asetettu konkurssiin. Tarkista mahdolliset toimenpiteet (esim. irtisano sopimus).", "date_remind":date.today(), "done":False, "contract_id":contract.id, "account_id":contract.account_id})
         db.engine.execute(Reminder.__table__.insert(), bankruptcy_reminders)
+
+    @staticmethod
+    def create_expiry_reminder(contract):
+        reminder = Reminder("Sopimus on umpeutunut. Tarkista sopimuksen tila ja mahdollisesti tarvittavat toimenpiteet.")
+        reminder.date_remind = contract.date_expiry
+        reminder.contract_id = contract.id
+        reminder.account_id = contract.account_id
+        db.session().add(reminder)
+        db.session().commit()

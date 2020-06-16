@@ -58,15 +58,13 @@
         <div class="card-body text-center">
           <p><a href="{{ url_for('parties_edit_form', party_id=party.id) }}" class="btn btn-primary">Muokkaa osapuolta</a></p>
           <p>
-            {% if party.bankrupt %}
-            <form method="POST" action="{{ url_for('parties_unset_bankrupt', party_id=party.id) }}">
-              <button type="submit" class="btn btn-warning">Poista konkurssitieto</button>
-            </form>
-            {% else %}
-            <form method="POST" action="{{ url_for('parties_set_bankrupt', party_id=party.id) }}">
-              <button type="submit" class="btn btn-warning">Aseta konkurssiin</button>
-            </form>
-            {% endif %}
+            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#setBankrupt">
+              {% if party.bankrupt %}
+              Poista konkurssitieto
+              {% else %}
+              Aseta konkurssiin
+              {% endif %}
+            </button>
           </p>
           {% if current_user.user_role == "ADMIN" %}
           <p><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteParty">Poista osapuoli</button></p>
@@ -75,6 +73,47 @@
       </div>    
     </div>
 
+</div>
+
+<!-- Set/Unset Party Bankrupt -->
+<div class="modal fade" id="setBankrupt" tabindex="-1" role="dialog" aria-labelledby="setBankruptTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      {% if party.bankrupt %}
+      <div class="modal-header">
+        <h5 class="modal-title" id="setBankruptLongTitle">Poistetaanko osapuolen konkurssitieto?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Sulje">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Jos poistat osapuolen <strong>"{{ party.name }}"</strong> konkurssitiedon, jo tehtyjä konkurssimuistutuksia ei kuitenkaan poisteta. Haluatko varmasti poistaa osapuolen konkurssitiedon?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Peruuta</button>
+        <form method="POST" action="{{ url_for('parties_unset_bankrupt', party_id=party.id) }}">
+          <button type="submit" class="btn btn-warning">Poista konkurssitieto</button>
+        </form>
+      </div>
+      {% else %}
+      <div class="modal-header">
+        <h5 class="modal-title" id="setBankruptLongTitle">Asetetaanko osapuoli konkurssiin?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Sulje">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Jos asetat osapuolen <strong>"{{ party.name }}"</strong> konkurssiin, osapuoleen liitettyjen sopimuksien omistajille lisätään automaattisesti muistutus sopimuksen tarkastamisesta konkurssin takia. Haluatko varmasti asettaa osapuolen konkurssiin?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Peruuta</button>
+        <form method="POST" action="{{ url_for('parties_set_bankrupt', party_id=party.id) }}">
+          <button type="submit" class="btn btn-warning">Aseta konkurssiin</button>
+        </form>
+      </div>
+      {% endif %}
+    </div>
+  </div>
 </div>
 
 {% if current_user.user_role == "ADMIN" %}

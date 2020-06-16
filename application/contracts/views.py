@@ -6,6 +6,7 @@ from datetime import date
 from application.contracts.models import Contract
 from application.contracts.forms import ContractForm, ContractPartyForm, ContractSearch
 from application.parties.models import Party
+from application.reminders.models import Reminder
 from application.auth.models import User
 
 @app.route("/contracts/", methods=["GET"])
@@ -41,8 +42,11 @@ def contracts_create():
 
     db.session().add(contract)
     db.session().commit()
+
+    if contract.date_expiry:
+        Reminder.create_expiry_reminder(contract)
   
-    return redirect(url_for("contracts_index"))
+    return redirect(url_for("contracts_view", contract_id = contract.id))
 
 @app.route("/contracts/new/", methods=["GET"])
 @login_required(role="ANY")
@@ -94,6 +98,9 @@ def contracts_edit(contract_id):
     form = ContractForm(request.form)
     form.account_id.choices = [(account.id, account.username+" ("+account.name+")") for account in User.query.order_by('username').all()]
 
+    if form.date_expiry.data and (editedContract.date_expiry != form.date_expiry.data):
+        update_expiry_reminder = True
+
     if not (editedContract.account_id == current_user.id or current_user.user_role == "ADMIN"):
         return redirect(url_for("contracts_view", contract_id = contract_id))
 
@@ -108,6 +115,9 @@ def contracts_edit(contract_id):
 
     db.session().add(editedContract)
     db.session().commit()
+
+    if update_expiry_reminder:
+        Reminder.create_expiry_reminder(editedContract)
   
     return redirect(url_for('contracts_view', contract_id=contract_id))
 

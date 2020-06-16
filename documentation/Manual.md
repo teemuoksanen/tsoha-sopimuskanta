@@ -32,6 +32,8 @@ Sopimuksen tietosivulla näkyy myös toimintoina muistutuksen lisääminen sekä
 
 Valitse yläpalkista _Sopimukset_ --> _Lisää uusi sopimus_ taikka suoraan etusivulta _Lisää uusi sopimus_. Anna sopimuksen otsikko tai muu kuvaava nimi _Sopimuksen nimi_ -kenttään. Valitse ainakin sopimuksen allekirjoitus- ja voimaantulopäivät sekä umpeutumispäivä, mikäli sellainen on. Jos sopimus on toistaiseksi voimassa oleva, jätä umpeutumispäivä tyhjäksi. Päivämäärän voit valita päivämääräketän oikean reunan nuolesta aukeavasta kalenterista tai syöttää sen muodossa _pp.kk.vvvv_.
 
+Jos asetat sopimukselle umpeutumispäivän, sopimuksen omistajalle lisätään automaattisesti muistutus sopimuksen umpeutumispäivälle.
+
 Ylläpitäjä voi valita myös käyttäjän, joka merkitään sopimuksen omistajaksi. Sopimuksen omistaja voi esimerkiksi muokata sopimuksen tietoja, vaikka ei olisi ylläpitäjä. Kun tavallinen käyttäjä lisää sopimuksen, sopimuksen omistajaksi merkitään automaattisesti kyseinen käyttäjä.
 
 Sopimukselle voi lisätä osapuolia sopimuksen tietosivulta seuraavan kohdan mukaisesti sen jälkeen, kun olet ensin lisännyt sopimuksen.
@@ -47,6 +49,8 @@ Huomaathan, että *Lisää osapuoli sopimukselle* -ikkunassa ei näytetä sellai
 ### Sopimuksen tietojen muokkaaminen
 
 Avaa sopimuksen tietosivu esimerkiksi sopimuslistasta. Valitse _Toiminnot_-laatikosta _Muokkaa sopimusta_. Huomaathan, että muokkauspainiketta ei näy, jos et ole sopimuksen omistaja tai ylläpitäjä.
+
+Jos lisäät sopimukselle umpeutumispäivän, sopimuksen omistajalle lisätään automaattisesti muistutus sopimuksen umpeutumispäivälle. Huomaathan, että aiemmin tehtyjä automaattisia muistutuksia ei poisteta, mikäli muutat umpeutumispäivää tai poistat sen kokonaan.
 
 ### Sopimuksen poistaminen
 
@@ -76,9 +80,9 @@ Valitse yläpalkista _Osapuolet_ --> _Lisää uusi osapuoli_ taikka suoraan etus
 
 ### Osapuolen asettaminen konkurssiin ja konkurssitiedon peruuttaminen
 
-Avaa osapuolen tietosivu esimerkiksi osapuolilistasta. Valitse _Toiminnot_-laatikosta _Aseta konkurssiin_. Konkurssitieto näytetään punaisella varoitusvärillä ja _"Konkurssissa"_-merkinnällä niissä yhteyksissä, missä osapuoleen viitataan. Jokaiselle käyttäjälle, jonka sopimuksiin kyseinen osapuoli on liitetty, tehdään automaattisesti aktiivinen muistutus, jossa kehotetaan tarkistamaan mahdolliset toimenpiteet konkurssin takia.
+Avaa osapuolen tietosivu esimerkiksi osapuolilistasta. Valitse _Toiminnot_-laatikosta _Aseta konkurssiin_ ja vahvista konkurssiin asettaminen vahvistusikkunassa painamalla _Aseta konkurssiin_. Konkurssitieto näytetään punaisella varoitusvärillä ja _"Konkurssissa"_-merkinnällä niissä yhteyksissä, missä osapuoleen viitataan. Jokaiselle käyttäjälle, jonka sopimuksiin kyseinen osapuoli on liitetty, tehdään automaattisesti aktiivinen muistutus, jossa kehotetaan tarkistamaan mahdolliset toimenpiteet konkurssin takia.
 
-Voit myös poistaa konkurssitiedon osapuolen tietosivulta. Valitse _Toiminnot_-laatikosta _Poista konkurssitieto_. Aiemmin lisättyjä konkurssimuistutuksia ei tässä yhteydessä poisteta.
+Voit myös poistaa konkurssitiedon osapuolen tietosivulta. Valitse _Toiminnot_-laatikosta _Poista konkurssitieto_ ja vahvista konkurssitiedon poistaminen vahvistusikkunassa painamalla _Poista konkurssitieto_. Aiemmin lisättyjä konkurssimuistutuksia ei tässä yhteydessä poisteta.
 
 ### Osapuolen tietojen muokkaaminen
 
