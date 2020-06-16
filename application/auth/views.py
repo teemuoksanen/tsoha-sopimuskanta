@@ -11,7 +11,7 @@ def users_index():
     users = User.users_with_contracts_count()
     return render_template("auth/list.html", users = users)
 
-@app.route("/users/", methods=["POST"])
+@app.route("/users/new/", methods=["POST"])
 @login_required(role="ADMIN")
 def users_create():
     form = UserForm(request.form)
@@ -45,6 +45,7 @@ def users_edit_form(user_id):
 def users_edit(user_id):
     user = User.query.get_or_404(user_id)
     form = UserEditForm(request.form)
+    form.current_username.data = user.username
     form_pw = PasswordEditForm(obj=user)
 
     if not form.validate():
@@ -90,6 +91,7 @@ def own_settings_form():
 def own_settings():
     user = current_user
     form = UserOwnSettingsForm(request.form)
+    form.current_username.data = user.username
     form_pw = PasswordEditForm(obj=user)
 
     if not form.validate():
