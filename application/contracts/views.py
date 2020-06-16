@@ -100,6 +100,8 @@ def contracts_edit(contract_id):
 
     if form.date_expiry.data and (editedContract.date_expiry != form.date_expiry.data):
         update_expiry_reminder = True
+    else:
+        update_expiry_reminder = False
 
     if not (editedContract.account_id == current_user.id or current_user.user_role == "ADMIN"):
         return redirect(url_for("contracts_view", contract_id = contract_id))

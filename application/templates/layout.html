@@ -29,14 +29,14 @@
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="{{ url_for('parties_index') }}" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Osapuolet</a>
-            <div class="dropdown-menu" aria-labelledby="dropdown01">
+            <div class="dropdown-menu" aria-labelledby="dropdown02">
               <a class="dropdown-item" href="{{ url_for('parties_index') }}">Listaa osapuolet</a>
               <a class="dropdown-item" href="{{ url_for('parties_new') }}">Lisää uusi osapuoli</a>
             </div>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="{{ url_for('reminders_index') }}" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Muistutukset</a>
-            <div class="dropdown-menu" aria-labelledby="dropdown01">
+            <a class="nav-link dropdown-toggle" href="{{ url_for('reminders_index') }}" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Muistutukset</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown03">
               <a class="dropdown-item" href="{{ url_for('reminders_index') }}">Listaa muistutukset</a>
               <a class="dropdown-item" href="{{ url_for('reminders_new') }}">Lisää uusi muistutus</a>
             </div>
@@ -44,7 +44,7 @@
           {% if current_user.user_role == "ADMIN" %}
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="{{ url_for('users_index') }}" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Käyttäjät</a>
-            <div class="dropdown-menu" aria-labelledby="dropdown01">
+            <div class="dropdown-menu" aria-labelledby="dropdown04">
               <a class="dropdown-item" href="{{ url_for('users_index') }}">Listaa käyttäjät</a>
               <a class="dropdown-item" href="{{ url_for('users_new') }}">Lisää uusi käyttäjä</a>
             </div>

@@ -57,16 +57,16 @@
       <tr>
         <th scope="col">Sopimuksen nimi</th>
         <th scope="col">Allekirjoitettu</th>
-        <th scope="col">Voimassa</th>
+        <th scope="col" class="text-center">Voimassa</th>
       </tr>
     </thead>
     {% for contract in contracts|sort(attribute='date_signed') %}
     <tr>
-      <td class="align-middle col-lg-3"><strong><a href="{{ url_for('contracts_view', contract_id=contract.id) }}">{{ contract.name }}</a></strong></td>
-      <td class="align-middle col-md-3">{{ contract.date_signed.strftime("%-d.%-m.%Y") }}</td>
+      <td class="align-middle col-lg-6"><strong><a href="{{ url_for('contracts_view', contract_id=contract.id) }}">{{ contract.name }}</a></strong></td>
+      <td class="align-middle col-sm-3">{{ contract.date_signed.strftime("%-d.%-m.%Y") }}</td>
       <td class="text-center align-middle col-sm-3">
         {% if (contract.date_entry <= today) and (contract.date_expiry == None or contract.date_expiry >= today) %}
-        <img src="/static/pics/check_black.png" alt="Sopimus on voimasssa" style="height: 1.5em" />
+        <img src="/static/pics/ok_black.png" alt="Sopimus on voimassa" style="height: 1.5em" />
         {% endif %}
       </td>
     </tr>

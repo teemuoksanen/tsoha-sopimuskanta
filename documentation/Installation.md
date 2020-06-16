@@ -16,7 +16,9 @@
 
 7. Käynnistä sovellus komennolla `python run.py`. Sovellus tulee käynnistää Pyhton-virtuaaliympäristössä - ota se tarvittaessa ensin käyttöön komennolla `source venv/bin/activate`.
 
-8. Sovellus on nyt käytössä. Avaa sovellus internet-selaimella osoitteessa (http://localhost:5000/). Voit sulkea sovelluksen näppäinyhdistelmällä `Ctrl + C` tai sulkemalla komentorivin. 
+8. Käynnistä sovellus komennolla `python run.py`. Sovellus on nyt käytössä. Avaa sovellus internet-selaimella osoitteessa (http://localhost:5000/). Voit sulkea sovelluksen näppäinyhdistelmällä `Ctrl + C` tai sulkemalla komentorivin.
+
+9. Kirjaudu sisään tunnuksella `testi` ja salasanalla `salasana`. Vaihda salasana (ja halutessasi myös muut käyttäjän tiedot) ensimmäisellä käyttökerralla yläpalkin valikon kohdasta _Asetukset_.
 
 ## Sovelluksen asennus Heroku-tilille
 

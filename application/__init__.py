@@ -2,6 +2,7 @@ from flask import Flask
 app = Flask(__name__)
 
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.sql import text
 
 import os
 
@@ -74,5 +75,9 @@ def load_user(user_id):
 
 try:
     db.create_all()
+    stmt = text("INSERT INTO account (id, name, username, password, user_role)"
+                " VALUES (1, 'Testikäyttäjä', 'testi',"
+                " '$2b$12$uXCpc8Fz3BdzOZiYqIUdn.wIhqyzwICpag0K4XnUPYUhWKlKymjz2', 'ADMIN')")
+    db.engine.execute(stmt)
 except:
     pass
