@@ -113,3 +113,13 @@ def parties_unset_bankrupt(party_id):
     db.session().commit()
 
     return redirect(url_for('parties_view', party_id=party.id))
+
+@app.route("/parties/statistics/", methods=["GET"])
+@login_required(role="ANY")
+def parties_stats():
+    return render_template("parties/stats.html",
+        parties_count = Party.query.count(),
+        bankrupt_count = Party.query.filter_by(bankrupt = True).count(),
+        parties_with_most_contracts = Party.parties_with_most_contracts(),
+        parties_with_most_valid_contracts = Party.parties_with_most_valid_contracts(),
+        parties_with_no_contracts = Party.parties_with_no_contracts())

@@ -56,7 +56,7 @@ Jos lisäät sopimukselle umpeutumispäivän, sopimuksen omistajalle lisätään
 
 Avaa sopimuksen tietosivu esimerkiksi sopimuslistasta. Valitse _Toiminnot_-laatikosta _Poista sopimus_ ja vahvista poistaminen painamalla _Poista_. Huomaathan, että poistamispainiketta ei näy, jos et ole sopimuksen omistaja tai ylläpitäjä.
 
-Kun poistat sopimuksen, se poistetaan lopullisesti eikä sitä voi enää palauttaa.
+Kun poistat sopimuksen, se poistetaan lopullisesti eikä sitä voi enää palauttaa. Samalla poistetaan kaikki sopimukseen liittyvät aiemmin luodut muistutukset.
 
 ## Osapuolet
 
@@ -93,6 +93,10 @@ Avaa osapuolen tietosivu esimerkiksi osapuolilistasta. Valitse _Toiminnot_-laati
 Avaa osapuolen tietosivu esimerkiksi osapuolilistasta. Valitse _Toiminnot_-laatikosta _Poista osapuoli_ ja vahvista poistaminen painamalla _Poista_. Mikäli osapuoli on liitettynä johonkin sopimukseen, poistaminen ei kuitenkaan ole mahdollista. Poista osapuoli ensin jokaiselta siihen liittyvältä sopimukselta, ja poista osapuoli vasta tämän jälkeen.
 
 Kun poistat osapuolen, se poistetaan lopullisesti eikä sitä voi enää palauttaa.
+
+### Tilastoja osapuolista
+
+Valitse yläpalkista _Osapuolet_ --> _Tilastoja osapuolista_ taikka suoraan etusivulta _Tilastoja osapuolista_. Tilastosivulta näet osapuolten sekä konkurssissa olevien osapuolten lukumäärät. Tilastosivulta näet lisäksi (enintään) viisi osapuolta, joilla on eniten sopimuksia, sekä (enintään) viisi osapuolta, joilla on eniten voimassa olevia sopimuksia. Näet myös kootusti osapuolet, joilla ei ole vielä yhtään sopimusta.
 
 ## Muistutukset
 

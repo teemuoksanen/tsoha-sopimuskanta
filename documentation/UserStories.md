@@ -16,6 +16,7 @@ Käyttäjätarinoiden (_user story_) perässä oleva numero viittaa dokumentin l
 - [x] ...lisätä osapuolia sopimuksiin. _(2a, 2b)_
 - [x] ...listata kaikki omat muistutukseni. _(4b)_
 - [x] ...nähdä etusivulla toimenpiteitä vaativat muistutukseni. _(4c)_
+- [x] ...listata osapuolet, joilla on eniten sopimuksia ja eniten voimassa olevia sopimuksia, sekä osapuolet, joilla ei ole yhtään sopimusta. _(3b)_
 
 ## Ylläpitäjänä voin lisäksi...
 - [x] ...luoda uusia käyttäjiä. _(1a)_
@@ -119,6 +120,40 @@ Osapuoli liitetään sopimuksen tietoihin liitostaulun avulla. Liitostalussa _co
 SELECT Contract.id, Contract.name FROM Contract
     JOIN ContractParty ON Contract.id = ContractParty.contract_id
     WHERE ContractParty.party_id IS ?;
+```
+
+### 3b. Osapuolet, joilla on eniten sopimuksia tai ei yhtään sopimusta
+
+Viisi osapuolta, joilla on eniten sopimuksia (vähintään 1):
+
+```
+SELECT Party.id, Party.name, COUNT(Contract.id) AS 'Contracts_count' FROM Party
+    JOIN ContractParty ON ContractParty.party_id = Party.id
+    JOIN Contract ON ContractParty.contract_id = Contract.id
+    GROUP BY Party.id
+    HAVING Contracts_count > 0
+    ORDER BY Contracts_count DESC LIMIT 5;
+```
+
+Viisi osapuolta, joilla on eniten voimassa olevia sopimuksia:
+
+```
+SELECT Party.id, Party.name, COUNT(Contract.id) AS 'Contracts_count' FROM Party
+    JOIN ContractParty ON ContractParty.party_id = Party.id
+    JOIN Contract ON ContractParty.contract_id = Contract.id
+    WHERE Contract.date_entry <= :today AND (Contract.date_expiry IS NULL OR Contract.date_expiry >= :today)
+    GROUP BY Party.id
+    ORDER BY Contracts_count ASC LIMIT 5;
+```
+
+Osapuolet, joilla ei ole ollenkaan sopimuksia:
+
+```
+SELECT Party.id, Party.name, COUNT(Contract.id) AS 'Contracts_count' FROM Party
+    LEFT JOIN ContractParty ON ContractParty.party_id = Party.id
+    LEFT JOIN Contract ON ContractParty.contract_id = Contract.id
+    GROUP BY Party.id
+    HAVING COUNT(Contract.id) = 0;
 ```
 
 ## 4. Muistutukset

@@ -39,7 +39,7 @@
           {% if party.contracts %}
           <ul class="list-group list-group-flush">
             {% for contract in party.contracts %}
-              <li class="list-group-item list-group-item d-flex">
+              <li class="list-group-item d-flex">
                 <div class="p-2"><strong><a href="{{ url_for('contracts_view', contract_id=contract.id) }}">{{ contract.name }}</a></strong></div>
               </li>
             {% endfor %}

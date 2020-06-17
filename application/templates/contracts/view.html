@@ -25,7 +25,7 @@
             {% endif %}
           </li>
           {% else %}
-          <li class="list-group-item list-group-item d-flex">
+          <li class="list-group-item d-flex">
             <div class="p-2"><strong><a href="{{ url_for('parties_view', party_id=party.id) }}">{{ party.name }}</a></strong></div>
             {% if contract.account_id == current_user.id or current_user.user_role == "ADMIN" %}
             <div class="p-2 ml-auto"><a href="{{ url_for('contracts_removeparty', contract_id=contract.id, party_id=party.id) }}">poista</a></div>
