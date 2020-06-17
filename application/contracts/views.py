@@ -77,7 +77,8 @@ def contracts_delete(contract_id):
 
     if not (contract.account_id == current_user.id or current_user.user_role == "ADMIN"):
         return redirect(url_for("contracts_view", contract_id = contract_id))
-
+    
+    Reminder.query.filter_by(contract_id=contract_id).delete()
     db.session().delete(contract)
     db.session().commit()
 
