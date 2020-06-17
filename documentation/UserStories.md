@@ -127,29 +127,29 @@ SELECT Contract.id, Contract.name FROM Contract
 Viisi osapuolta, joilla on eniten sopimuksia (vähintään 1):
 
 ```
-SELECT Party.id, Party.name, COUNT(Contract.id) AS contracts_count FROM Party
+SELECT Party.id, Party.name, COUNT(Contract.id) FROM Party
     JOIN ContractParty ON ContractParty.party_id = Party.id
     JOIN Contract ON ContractParty.contract_id = Contract.id
     GROUP BY Party.id
-    HAVING contracts_count > 0
-    ORDER BY contracts_count DESC LIMIT 5;
+    HAVING COUNT(Contract.id) > 0
+    ORDER BY COUNT(Contract.id) DESC LIMIT 5;
 ```
 
 Viisi osapuolta, joilla on eniten voimassa olevia sopimuksia:
 
 ```
-SELECT Party.id, Party.name, COUNT(Contract.id) AS contracts_count FROM Party
+SELECT Party.id, Party.name, COUNT(Contract.id) FROM Party
     JOIN ContractParty ON ContractParty.party_id = Party.id
     JOIN Contract ON ContractParty.contract_id = Contract.id
     WHERE Contract.date_entry <= :today AND (Contract.date_expiry IS NULL OR Contract.date_expiry >= :today)
     GROUP BY Party.id
-    ORDER BY contracts_count ASC LIMIT 5;
+    ORDER BY COUNT(Contract.id) ASC LIMIT 5;
 ```
 
 Osapuolet, joilla ei ole ollenkaan sopimuksia:
 
 ```
-SELECT Party.id, Party.name, COUNT(Contract.id) AS 'Contracts_count' FROM Party
+SELECT Party.id, Party.name, COUNT(Contract.id) FROM Party
     LEFT JOIN ContractParty ON ContractParty.party_id = Party.id
     LEFT JOIN Contract ON ContractParty.contract_id = Contract.id
     GROUP BY Party.id
