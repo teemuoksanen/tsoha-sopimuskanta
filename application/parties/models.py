@@ -19,12 +19,12 @@ class Party(Base):
 
     @staticmethod
     def parties_with_most_contracts():
-        stmt = text("SELECT Party.id, Party.name, COUNT(Contract.id) AS 'Contracts_count' FROM Party"
+        stmt = text("SELECT Party.id, Party.name, COUNT(Contract.id) AS contracts_count FROM Party"
                     " JOIN ContractParty ON ContractParty.party_id = Party.id"
                     " JOIN Contract ON ContractParty.contract_id = Contract.id"
                     " GROUP BY Party.id"
-                    " HAVING Contracts_count > 0"
-                    " ORDER BY Contracts_count DESC LIMIT 5")
+                    " HAVING contracts_count > 0"
+                    " ORDER BY contracts_count DESC LIMIT 5")
         res = db.engine.execute(stmt)
         response = []
         for row in res:
@@ -33,12 +33,12 @@ class Party(Base):
 
     @staticmethod
     def parties_with_most_valid_contracts():
-        stmt = text("SELECT Party.id, Party.name, COUNT(Contract.id) AS 'Contracts_count' FROM Party"
+        stmt = text("SELECT Party.id, Party.name, COUNT(Contract.id) AS contracts_count FROM Party"
                     " JOIN ContractParty ON ContractParty.party_id = Party.id"
                     " JOIN Contract ON ContractParty.contract_id = Contract.id"
                     " WHERE Contract.date_entry <= :today AND (Contract.date_expiry IS NULL OR Contract.date_expiry >= :today)"
                     " GROUP BY Party.id"
-                    " ORDER BY Contracts_count DESC LIMIT 5").params(today = date.today())
+                    " ORDER BY contracts_count DESC LIMIT 5").params(today = date.today())
         res = db.engine.execute(stmt)
         response = []
         for row in res:
