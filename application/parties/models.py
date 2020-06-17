@@ -19,7 +19,7 @@ class Party(Base):
 
     @staticmethod
     def parties_with_most_contracts():
-        stmt = text("SELECT Party.id, Party.name, COUNT(Contract.id) FROM Party"
+        stmt = text("SELECT Party.id, Party.name, Party.bankrupt, COUNT(Contract.id) FROM Party"
                     " JOIN ContractParty ON ContractParty.party_id = Party.id"
                     " JOIN Contract ON ContractParty.contract_id = Contract.id"
                     " GROUP BY Party.id"
@@ -28,12 +28,12 @@ class Party(Base):
         res = db.engine.execute(stmt)
         response = []
         for row in res:
-            response.append({"id":row[0], "name":row[1], "contracts_count":row[2]})
+            response.append({"id":row[0], "name":row[1], "bankrupt":row[2], "contracts_count":row[3]})
         return response
 
     @staticmethod
     def parties_with_most_valid_contracts():
-        stmt = text("SELECT Party.id, Party.name, COUNT(Contract.id) FROM Party"
+        stmt = text("SELECT Party.id, Party.name, Party.bankrupt, COUNT(Contract.id) FROM Party"
                     " JOIN ContractParty ON ContractParty.party_id = Party.id"
                     " JOIN Contract ON ContractParty.contract_id = Contract.id"
                     " WHERE Contract.date_entry <= :today AND (Contract.date_expiry IS NULL OR Contract.date_expiry >= :today)"
@@ -42,12 +42,12 @@ class Party(Base):
         res = db.engine.execute(stmt)
         response = []
         for row in res:
-            response.append({"id":row[0], "name":row[1], "contracts_count":row[2]})
+            response.append({"id":row[0], "name":row[1], "bankrupt":row[2], "contracts_count":row[3]})
         return response
 
     @staticmethod
     def parties_with_no_contracts():
-        stmt = text("SELECT Party.id, Party.name FROM Party"
+        stmt = text("SELECT Party.id, Party.name, Party.bankrupt FROM Party"
                     " LEFT JOIN ContractParty ON ContractParty.party_id = Party.id"
                     " LEFT JOIN Contract ON ContractParty.contract_id = Contract.id"
                     " GROUP BY Party.id"
@@ -55,5 +55,5 @@ class Party(Base):
         res = db.engine.execute(stmt)
         response = []
         for row in res:
-            response.append({"id":row[0], "name":row[1]})
+            response.append({"id":row[0], "name":row[1], "bankrupt":row[2]})
         return response
