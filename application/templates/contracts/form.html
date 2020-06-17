@@ -91,7 +91,7 @@
     {{ form.account_id.label }} *
     <select class="selectpicker show-tick form-control" data-live-search="true" id="account_id" name="account_id" required title="Valitse käyttäjä...">
       {% for value in form.account_id.choices %}
-      {% if form.account_id.data == value.0 %}
+      {% if form.account_id.data == value.0 or (not form.account_id.data and current_user.id == value.0) %}
       <option selected value="{{ value.0 }}">{{ value.1 }}</option>
       {% else %}
       <option value="{{ value.0 }}">{{ value.1 }}</option>

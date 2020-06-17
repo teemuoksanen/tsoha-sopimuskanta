@@ -64,7 +64,7 @@ def reminders_new_for_contract(contract_id=0):
 @login_required(role="ANY")
 def reminders_delete(reminder_id):
 
-    reminder = Reminder.query.get(reminder_id)
+    reminder = Reminder.query.get_or_404(reminder_id)
 
     if not (reminder.account_id == current_user.id or current_user.user_role == "ADMIN"):
         return redirect(url_for("reminders_index"))
@@ -77,7 +77,7 @@ def reminders_delete(reminder_id):
 @app.route("/reminders/edit/<int:reminder_id>/", methods=["GET"])
 @login_required(role="ANY")
 def reminders_edit_form(reminder_id):
-    reminder = Reminder.query.get(reminder_id)
+    reminder = Reminder.query.get_or_404(reminder_id)
 
     if not (reminder.account_id == current_user.id or current_user.user_role == "ADMIN"):
         return redirect(url_for("reminders_index"))
@@ -90,7 +90,7 @@ def reminders_edit_form(reminder_id):
 @app.route("/reminders/edit/<int:reminder_id>/", methods=["POST"])
 @login_required(role="ANY")
 def reminders_edit(reminder_id):
-    editedReminder = Reminder.query.get(reminder_id)
+    editedReminder = Reminder.query.get_or_404(reminder_id)
 
     if not (editedReminder.account_id == current_user.id or current_user.user_role == "ADMIN"):
         return redirect(url_for("reminders_index"))
@@ -116,7 +116,7 @@ def reminders_edit(reminder_id):
 @login_required(role="ANY")
 def reminders_set_done(reminder_id):
 
-    reminder = Reminder.query.get(reminder_id)
+    reminder = Reminder.query.get_or_404(reminder_id)
 
     if not (reminder.account_id == current_user.id or current_user.user_role == "ADMIN"):
         return redirect(url_for("reminders_index"))
@@ -135,7 +135,7 @@ def reminders_set_done(reminder_id):
 @login_required(role="ANY")
 def reminders_unset_done(reminder_id):
 
-    reminder = Reminder.query.get(reminder_id)
+    reminder = Reminder.query.get_or_404(reminder_id)
 
     if not (reminder.account_id == current_user.id or current_user.user_role == "ADMIN"):
         return redirect(url_for("reminders_index"))

@@ -27,7 +27,7 @@ def users_create():
   
     return redirect(url_for("users_index"))
 
-@app.route("/users/new/")
+@app.route("/users/new/", methods=["GET"])
 @login_required(role="ADMIN")
 def users_new():
     return render_template("auth/new.html", form = UserForm())

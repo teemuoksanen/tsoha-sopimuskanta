@@ -34,6 +34,11 @@ def contracts_create():
     if not form.validate():
         return render_template("contracts/form.html", form = form, action = "new")
 
+    if form.date_expiry.data and (form.date_expiry.data < form.date_entry.data):
+        form.date_entry.errors.append("Voimaantulopäivä ei voi olla umpeutumispäivän jälkeen.")
+        form.date_expiry.errors.append("Umpeutumispäivä ei voi olla ennen voimaantulopäivää.")
+        return render_template("contracts/form.html", form = form, action = "new")
+
     contract = Contract(form.name.data)
     contract.date_signed = form.date_signed.data
     contract.date_entry = form.date_entry.data
@@ -107,7 +112,12 @@ def contracts_edit(contract_id):
         return redirect(url_for("contracts_view", contract_id = contract_id))
 
     if not form.validate():
-        return render_template("contracts/form.html", form = form, action = "edit")
+        return render_template("contracts/form.html", form = form, action = "edit", contract_id = contract_id)
+
+    if form.date_expiry.data and (form.date_expiry.data < form.date_entry.data):
+        form.date_entry.errors.append("Voimaantulopäivä ei voi olla umpeutumispäivän jälkeen.")
+        form.date_expiry.errors.append("Umpeutumispäivä ei voi olla ennen voimaantulopäivää.")
+        return render_template("contracts/form.html", form = form, action = "edit", contract_id = contract_id)
 
     editedContract.name = form.name.data
     editedContract.date_signed = form.date_signed.data
