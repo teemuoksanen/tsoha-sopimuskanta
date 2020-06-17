@@ -40,7 +40,10 @@
           <ul class="list-group list-group-flush">
             {% for contract in party.contracts %}
               <li class="list-group-item d-flex">
-                <div class="p-2"><strong><a href="{{ url_for('contracts_view', contract_id=contract.id) }}">{{ contract.name }}</a></strong></div>
+                <strong><a href="{{ url_for('contracts_view', contract_id=contract.id) }}">{{ contract.name }}</a></strong>
+                {% if (contract.date_entry <= today) and (contract.date_expiry == None or contract.date_expiry >= today) %}
+                &nbsp;<img src="/static/pics/ok_black.png" alt="Sopimus on voimassa" style="height: 1.25em" />
+                {% endif %}
               </li>
             {% endfor %}
           </ul>

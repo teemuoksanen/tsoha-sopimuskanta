@@ -10,6 +10,18 @@
 
 *Jos sinulla ei vielä ole omia tunnuksia, voit luoda kirjautumalla ensin sisään tunnuksella *testi* ja salasanalla *salasana*. Voit luoda uudet tunnukset kohdasta 'Käyttäjät -> Lisää uusi käyttäjä'. Normaalikäytössä ylläpitäjä luo käyttäjille tunnukset.*
 
+## Sovelluksessa käytetyt symbolit
+
+Sovelluksessa käytetään muutamia symboleita, joiden tarkoituksena on antaa erilaisissa listauksissa yms. nopeasti tietoa eri tietokohteista, kuten sopimuksista ja käyttäjistä. Ohessa symbolien selitykset:
+
+Symboli | Selite
+--- | ---
+![Ylläpitäjä](https://github.com/teemuoksanen/tsoha-sopimuskanta/blob/master/application/static/pics/admin_black.png) | Käyttäjä on ylläpitäjä
+![Tekemättä](https://github.com/teemuoksanen/tsoha-sopimuskanta/blob/master/application/static/pics/unchecked_black.png) | Muistutus on tekemättä
+![Tehty](https://github.com/teemuoksanen/tsoha-sopimuskanta/blob/master/application/static/pics/check_black.png) | Muistutus on merkitty tehdyksi
+![Muokkaa](https://github.com/teemuoksanen/tsoha-sopimuskanta/blob/master/application/static/pics/edit_black.png) | Muokkaa
+![Voimassa](https://github.com/teemuoksanen/tsoha-sopimuskanta/blob/master/application/static/pics/ok_black.png) | Sopimus on voimassa
+
 ## Sopimukset
 
 ### Sopimuksien selaaminen ja hakeminen

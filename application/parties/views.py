@@ -1,5 +1,6 @@
 from application import app, db, login_required
 from flask import redirect, render_template, request, url_for
+from datetime import date
 from flask_login import current_user
 
 from application.parties.models import Party
@@ -52,7 +53,7 @@ def parties_new():
 @login_required(role="ANY")
 def parties_view(party_id):
     party = Party.query.get_or_404(party_id)
-    return render_template("parties/view.html", party = party)
+    return render_template("parties/view.html", party = party, today = date.today())
 
 @app.route("/parties/delete/<party_id>/", methods=["POST"])
 @login_required(role="ANY")
