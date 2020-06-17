@@ -34,4 +34,6 @@
 
 4. Siirrä sovellus Herokuun suorittamalla komennot `git add .`, `git commit -m "Initial commit"` ja `git push heroku master`.
 
-8. Sovellus on käytössä hetken kuluttua, kun Heroku on ensin ladannut sovelluksen. Avaa sovelluksen käyttöliittymä internet-selaimella kohdassa 2 talteen ottamallasi osoitteella (esim. *https://sovelluksennimi.herokuapp.com/*).
+5. Sovellus on käytössä hetken kuluttua, kun Heroku on ensin ladannut sovelluksen. Avaa sovelluksen käyttöliittymä internet-selaimella kohdassa 2 talteen ottamallasi osoitteella (esim. *https://sovelluksennimi.herokuapp.com/*).
+
+6. Kirjaudu sisään tunnuksella `testi` ja salasanalla `salasana`. Vaihda salasana (ja halutessasi myös muut käyttäjän tiedot) ensimmäisellä käyttökerralla yläpalkin valikon kohdasta _Asetukset_.
